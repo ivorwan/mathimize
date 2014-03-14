@@ -70,19 +70,19 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'iwan',
-		'USER': 'postgres',
-		'PASSWORD': 'wbnt%1067%',
-   }
-}
-
-
-#DATABASES= {
-#    'default': dj_database_url.config(default=os.environ['DATABASE_URL'])
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'iwan',
+#		'USER': 'postgres',
+#		'PASSWORD': 'wbnt%1067%',
+#   }
 #}
+
+
+DATABASES= {
+    'default': dj_database_url.config(default=os.environ['DATABASE_URL'])
+}
 #DATABASES['default'] =  dj_database_url.config()
 
 # Internationalization
