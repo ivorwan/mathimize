@@ -51,7 +51,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'polls',
+	
 )
+
+LOGIN_REDIRECT_URL='/polls/'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,6 +63,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+)
+
+SESSION_ENGINE = (
+    'django.contrib.sessions.backends.cached_db'
 )
 
 ROOT_URLCONF = 'mysite.urls'
