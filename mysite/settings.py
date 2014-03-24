@@ -25,6 +25,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+#heroku setting
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -114,7 +117,10 @@ STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    #heroku setting
+	#os.path.join(BASE_DIR, 'static'),
+	os.path.join(PROJECT_PATH, 'static'),
+	
 )
 
 
