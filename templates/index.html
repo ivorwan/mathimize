@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block header %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#getStarted").click(function () {
+                window.location = "/Addition";
+            });
+        });
+    </script>
+{% endblock header %}	
+
+{% block content %}
+    <section id="feature_slider" class="">
+        <!-- 
+            Each slide is composed by <img> and .info
+            - .info's position is customized with css in index.css
+            - each <img> parallax effect is declared by the following params inside its class:
+            
+            example: class="asset left-472 sp600 t120 z3"
+            left-472 means left: -472px from the center
+            sp600 is speed transition
+            t120 is top to 120px
+            z3 is z-index to 3
+            Note: Maintain this order of params
+
+            For the backgrounds, you can combine from the bgs folder :D
+        -->
+        <article class="slide" id="showcasing" style="background: url('{% static "content/img/backgrounds/landscape.png" %}') repeat-x top center;">
+            <img class="asset left-30 sp600 t120 z1" src="{% static "content/img/slides/scene1/macbook.png" %}" />
+            <div class="info">
+                <h2>Dynamic worksheets.</h2>
+                <h3>New exercises every time</h3>
+            </div>
+        </article>
+        <article class="slide" id="ideas" style="background: url('{% static "content/img/backgrounds/aqua.jpg" %}') repeat-x top center;">
+            <div class="info">
+                <h2>Don't just learn Math. </h2>
+                <h3>Become fluent in it.</h3>
+            </div>
+            <img class="asset left-480 sp600 t260 z1" src="{% static "content/img/slides/scene2/left.png" %}" />
+            <img class="asset left-210 sp600 t213 z2" src="{% static "content/img/slides/scene2/middle.png" %}" />
+            <img class="asset left60 sp600 t260 z1" src="{% static "content/img/slides/scene2/right.png" %}" />
+        </article>
+        <article class="slide" id="tour" style="background: url('{% static "content/img/backgrounds/color-splash.jpg" %}') repeat-x top center;">
+            <img class="asset left-472 sp650 t210 z3" src="{% static "content/img/slides/scene3/ipad.png" %}" />
+            <img class="asset left-365 sp600 t270 z4" src="{% static "content/img/slides/scene3/iphone.png" %}" />
+            <img class="asset left-350 sp450 t135 z2" src="{% static "content/img/slides/scene3/desktop.png" %}" />
+            <img class="asset left-185 sp550 t220 z1" src="{% static "content/img/slides/scene3/macbook.png" %}" />
+            <div class="info">
+                <h2>100% FREE. </h2>
+                <h3>Built from parents to parents.</h3>
+                <a href="/Addition/">START NOW</a>
+            </div>
+        </article>
+	</section>
+    <div id="showcase">
+        <div class="container">
+            <div class="section_header">
+                <h3>Mathimize</h3>
+            </div>            
+            <div class="row feature_wrapper">
+                <!-- Features Row -->
+                <div class="features_op1_row">
+                    <!-- Feature -->
+                    <div class="span4 feature first">
+                        <div class="img_box">
+                            <a href="services.html">
+                                <img src="{% static "content/img/service1.png" %}">
+                                <span class="circle"> 
+                                    <span class="plus">&#43;</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="text">
+                            <h6>Dynamic Worksheets</h6>
+                            <p>
+                                There are many worksheets out there, but all of them are static ones. You download them once and that's it. 
+                            </p>
+                            <p>At Mathimize, the worksheets are dynamic. You'll get a new one everytime you visit the site. Generate as many as you want.</p>
+                        </div>
+                    </div>
+                    <!-- Feature -->
+                    <div class="span4 feature">
+                        <div class="img_box">
+                            <a href="services.html">
+                                <img src="{% static "content/img/service2.png" %}">
+                                <span class="circle"> 
+                                    <span class="plus">&#43;</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="text">
+                            <h6>Become fluent in Math</h6>
+                            <p>
+                                Automatic recall of basic math facts (math fluency) is generally considered a key foundation for higher level math skills. Your kid can Add and Subtract. But how fast is he? Does he still use his fingers to do single digit operations? How fluent is he?
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Feature -->
+                    <div class="span4 feature last">
+                        <div class="img_box">
+                            <a href="services.html">
+                                <img src="{% static "content/img/service3.png" %}">
+                                <span class="circle"> 
+                                    <span class="plus">&#43;</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="text">
+                            <h6>100% FREE</h6>
+                            <p>
+                                I do Math drills with my kids every Sunday morning. The worksheets out there were static, so I wrote simple scripts that generated dynamic worksheets for my kids. I thought other parents would also appreciate these scripts, so I started Mathimize.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Scripts -->
+    
+    <script type="text/javascript" src="{% static "Scripts/index-slider.js" %}"></script>	
+
+{% endblock content %}
