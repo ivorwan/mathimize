@@ -9,5 +9,6 @@ jinja2==2.7.2
 markupsafe==0.18
 psycopg2==2.5.2
 pystache==0.5.3
+reportlab==3.0
 static==1.0.2
 werkzeug==0.9.4
