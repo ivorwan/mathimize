@@ -1,0 +1,19 @@
+{% extends "framed.html" %}
+
+{% load staticfiles %}
+
+{% block title %} Addition {% endblock title %}
+
+{% block framedcontent %}
+
+    <div class="border padded_border">
+	    <div class="section_header">
+			<h3>Addition</h3>
+		</div>
+		<form method="post">{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Submit" />
+		</form>
+	</div>
+
+{% endblock framedcontent %}
