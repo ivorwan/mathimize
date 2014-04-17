@@ -1,6 +1,7 @@
 import datetime
 from django.utils import timezone
 from django.db import models
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
@@ -28,8 +29,11 @@ class Level(models.Model):
         return self.level_name
 
 class Worksheet(models.Model):
-    worksheet_name = models.CharField(max_length=20, primary_key=True)
+    worksheet_name = models.CharField(max_length=20)
     level = models.ForeignKey(Level)
     description = models.CharField(max_length=2000)
     number_of_exercises = models.IntegerField()
     average_time = models.IntegerField()
+    tags = TaggableManager()
+    def get_worksheet_name(self):
+        return self.worksheet_name

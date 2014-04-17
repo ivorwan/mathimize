@@ -1,0 +1,23 @@
+{% extends "framed.html" %}
+
+{% load staticfiles %}
+
+{% block title %} Addition {% endblock title %}
+
+{% block framedcontent %}
+
+    <div class="border padded_border">
+	    <div class="section_header">
+			<h3>Worksheets</h3>
+		</div>
+        {% if worksheet_list %}
+            <ul>
+            {% for sheet in worksheet_list %}
+                <li><a href="/addition/generatePDFWorksheet/{{ sheet.id }}/">{{ sheet.worksheet_name }}</a> {{ sheet.level }} {{ sheet.description }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No polls are available.</p>
+        {% endif %}
+    </div>
+{% endblock framedcontent %}

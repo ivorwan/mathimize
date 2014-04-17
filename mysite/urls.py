@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from mysite.views import BasicArithmeticForm
+from mysite.models import Level, Worksheet
 
 from django.contrib import admin
 admin.autodiscover()
@@ -14,9 +15,14 @@ urlpatterns = patterns('',
 	url(r'^$', TemplateView.as_view(template_name='index.html')),
 	url(r'^(?i)addition/$', TemplateView.as_view(template_name='addition/index.html')),
 	url(r'^(?i)addition/basic',  'mysite.views.basicAddition' ),
+    url(r'^(?i)worksheets',
+        ListView.as_view(
+            queryset=Worksheet.objects.all(),
+            context_object_name='worksheet_list',
+            template_name='worksheets.html')),
 	#url(r'^(?i)addition/some_view',  'mysite.views.some_view' ),
     url(r'^(?i)addition/generatePDF/(?P<rows>\d+)/(?P<cols>\d+)/$',  'mysite.views.generatePDF', name='generatePDF' ),
-    url(r'^(?i)addition/generatePDFWorksheet/(?P<level>\w+)/$',  'mysite.views.generatePDFWorksheet', name='generatePDFWorksheet' ),
+    url(r'^(?i)addition/generatePDFWorksheet/(?P<worksheet_id>\d+)/$',  'mysite.views.generatePDFWorksheet', name='generatePDFWorksheet' ),
 		
 )
 urlpatterns += patterns('django.contrib.auth.views',
