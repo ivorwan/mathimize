@@ -13,7 +13,7 @@
         {% if worksheet_list %}
             <ul>
             {% for sheet in worksheet_list %}
-                <li><a href="/addition/generatePDFWorksheet/{{ sheet.id }}/">{{ sheet.worksheet_name }}</a> {{ sheet.level }} {{ sheet.description }}</li>
+                <li><a href="/addition/generatePDFWorksheet/{{ sheet.id }}/">{{ sheet.worksheet_name }} - Level {{ sheet.level.level_name }}</a> <br/>  {{ sheet.description }}</li>
             {% endfor %}
             </ul>
         {% else %}

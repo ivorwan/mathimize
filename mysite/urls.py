@@ -13,15 +13,16 @@ urlpatterns = patterns('',
 	url(r'^polls/', include('polls.urls')),
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^(?i)about', TemplateView.as_view(template_name='about.html')),
 	url(r'^(?i)addition/$', TemplateView.as_view(template_name='addition/index.html')),
-	url(r'^(?i)addition/basic',  'mysite.views.basicAddition' ),
+	#url(r'^(?i)addition/basic',  'mysite.views.basicAddition' ),
     url(r'^(?i)worksheets',
         ListView.as_view(
             queryset=Worksheet.objects.all(),
             context_object_name='worksheet_list',
             template_name='worksheets.html')),
 	#url(r'^(?i)addition/some_view',  'mysite.views.some_view' ),
-    url(r'^(?i)addition/generatePDF/(?P<rows>\d+)/(?P<cols>\d+)/$',  'mysite.views.generatePDF', name='generatePDF' ),
+    #url(r'^(?i)addition/generatePDF/(?P<rows>\d+)/(?P<cols>\d+)/$',  'mysite.views.generatePDF', name='generatePDF' ),
     url(r'^(?i)addition/generatePDFWorksheet/(?P<worksheet_id>\d+)/$',  'mysite.views.generatePDFWorksheet', name='generatePDFWorksheet' ),
 		
 )

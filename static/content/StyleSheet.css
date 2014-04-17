@@ -1,4 +1,5 @@
 ﻿@import url("bootstrap/bootstrap.min.css");
+/*
 body
 {
     font-family: "Helvetica Neue" , Helvetica, Arial, sans-serif;
@@ -6,7 +7,38 @@ body
     line-height: 20px;
     color: #333333;
 }
+*/
 
+.navbar-inverse .dropdown-menu .divider
+{
+    border-bottom-color: #ddd;
+	border-bottom-width: 0px;
+	background-color: #555;
+}
+
+#mathimize_body
+{
+    margin-top:100px;
+}
+
+#mathimize_body h6{
+	font-size: 21px;
+	font-style: italic;
+	color: #252526;
+	line-height: 29px;
+	font-weight: normal;
+	margin: 0 0 16px 0;
+}
+
+.website-view
+{
+ /*   background-color: #fff;
+*/
+}
+.pdf-view
+{
+    background-color: #fff;
+}
 .border
 {
     border: 1px solid #ddd;
@@ -25,11 +57,27 @@ body
     text-align: right;
     padding: 2px 5px 5px 5px;
     margin-bottom: 15px;
+    background: #fff;
 }
 
 .math_box hr
 {
     margin: 0px 0px 0px 0px;
+}
+
+.time_box
+{
+   padding: 5px 12px 12px 12px;
+   margin: 5px 5px 5px 5px;
+   position: relative;
+}
+.svg_time_box
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 140px;
+    width: 140px;
 }
 
 .small-label
@@ -56,7 +104,7 @@ body
     color: #ff0000;
     font-size: 10px;
     display:none;
-    
+
 }
 
 .field-validation-valid {
@@ -79,24 +127,8 @@ body
 }
 
 
-/*
 
-div.message{
-    background: transparent url(msg_arrow.gif) no-repeat scroll left center;
-    padding-left: 7px;
-}
-
-div.error{
-    background-color:#F3E6E6;
-    border-color: #924949;
-    border-style: solid solid solid none;
-    border-width: 2px;
-    padding: 5px;
-}
-*/
-
-
-.hidden 
+.hidden
 {
     visibility: hidden;
 }
