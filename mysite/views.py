@@ -7,7 +7,7 @@ from django import forms
 from django.shortcuts import render
 from django.shortcuts import redirect
 from reportlab.pdfgen import canvas
-from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT
 from reportlab.lib.units import mm
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, inch
@@ -86,21 +86,27 @@ class NumberedCanvas(canvas.Canvas):
         for state in self._saved_page_states:
             self.__dict__.update(state)
             self.draw_page_number(num_pages)
+            self.draw_title()
             canvas.Canvas.showPage(self)
         canvas.Canvas.save(self)
 
+    def draw_title(self):
+        self.setFont("Helvetica", 8)
+        self.drawRightString(7.8 * inch, 10.25 * inch, "Mathimize.com")
     def draw_page_number(self, page_count):
         # Change the position of this to wherever you want the page number to be
-        self.setFont("Helvetica", 10)
+        self.setFillColorRGB(0.47, 0.47, 0.47)
+        self.setFont("Helvetica", 6)
+
         self.drawRightString(200 * mm, 15 * mm + (0.2 * inch),
                              "Page %d of %d" % (self._pageNumber, page_count))
-        self.drawCentredString( 4 * inch, 10.25 * inch, "Mathimize.com")
+
 
 
 
 def generatePDFWorksheet(request, worksheet_id):
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="simple_table_grid.pdf"'
+    #response['Content-Disposition'] = 'attachment; filename="simple_table_grid.pdf"'
 
     doc = SimpleDocTemplate(response, pagesize=letter)
 
@@ -108,8 +114,10 @@ def generatePDFWorksheet(request, worksheet_id):
     styles = getSampleStyleSheet()
 
     #Two Columns
-    frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height, id='col1')
-    frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height, id='col2')
+
+    frame_title = Frame(doc.leftMargin, doc.height + 50, doc.width, 25, id='title', showBoundary=0)
+    frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col1', showBoundary=0)
+    frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col2', showBoundary=0)
 
     #frame1.drawBoundary(canvas)
     #frame2.drawBoundary(canvas)
@@ -122,15 +130,37 @@ def generatePDFWorksheet(request, worksheet_id):
     worksheetInstance.number_of_exercises = worksheet.number_of_exercises
     worksheetInstance.level = worksheet.level
 
+    ptext = '<font size=10 color=#F00>%s - Level %s</font>' % (worksheet_name, worksheet.level.level_name)
+    elements.append(Paragraph(ptext, styles["Normal"]))
+
+    h1 = ParagraphStyle(name='test', fontSize=10, leading=16, alignment=2, rightIndent=20, fixedWidth=100)
+
+
     #termsList = Level1().getTerms()
     termsList = worksheetInstance.getTerms()
     ptext = ""
+
+    data = []
     for t in termsList:
-        ptext = '<font size=15>%s %s %s = <br/><br/></font>' % (t.term1, t.operator, t.term2)
-        elements.append(Paragraph(ptext, styles["Normal"]))
+        data.append([t.term1, t.operator, t.term2, '='])
+    t = Table(data)
+    t.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
+                           ('BOTTOMPADDING',(0,0),(-1,-1), 9),
+                            ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
+    elements.append(t)
+#    for t in termsList:
+#        ptext = '<font size=15>%s %s %s = </font>TASD<br/><br/>' % (t.term1, t.operator, t.term2)
+#        p = Paragraph(ptext, h1)
+
+        #elements.append(Paragraph(ptext, styles["Normal"]))
+#        elements.append(p)
+
+
+
         #elements.append(Spacer(1, 15, isGlue=True))
 
-    doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame1,frame2]), ])
+
+    doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame_title, frame1,frame2]), ])
 
     # write the document to disk
     doc.build(elements, canvasmaker=NumberedCanvas)
@@ -198,20 +228,21 @@ class Doubles(Worksheet):
 class Addition(Worksheet):
     def getTerms(self):
         termsList = []
-        for i in range(1, self.number_of_exercises):
+        for i in range(self.number_of_exercises):
             if self.level.level_name == 'I':
                 maxInt = 9
-
+                term1 = random.randint(1, maxInt)
+                term2 = self.getDifferentRandomTerm(term1, 1, maxInt )
             if self.level.level_name == 'II':
                 maxInt = 99
-            term1 = random.randint(1, maxInt)
-            term2 = self.getDifferentRandomTerm(term1, maxInt )
+                term1 = random.randint(10, maxInt)
+                term2 = self.getDifferentRandomTerm(term1, 10, maxInt )
             t = Terms(term1, term2, "+")
             termsList.append(t)
         return termsList
 
-    def getDifferentRandomTerm(self, term1, maxInt):
-        newTerm = random.randint(1, maxInt)
+    def getDifferentRandomTerm(self, term1, minInt, maxInt):
+        newTerm = random.randint(minInt, maxInt)
         while (newTerm == term1):
-            newTerm = random.randint(1, maxInt)
+            newTerm = random.randint(minInt, maxInt)
         return newTerm
