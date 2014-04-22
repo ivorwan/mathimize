@@ -1,9 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "framed.html" %}
 
-</body>
-</html>
+{% load staticfiles %}
+
+{% block title %} Contact Us {% endblock title %}
+
+{% block framedcontent %}
+
+    <div class="border padded_border">
+	    <div class="section_header">
+			<h3>Contact Us</h3>
+		</div>
+        <p>Thank You for your message.
+        </p>
+        <p>Check our worksheets <a href="/worksheets">here</a></p>
+
+    </div>
+{% endblock framedcontent %}

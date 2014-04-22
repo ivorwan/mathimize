@@ -123,3 +123,6 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     'templates',
 )
+
+
+EMAIL_HOST = '192.168.1.7'

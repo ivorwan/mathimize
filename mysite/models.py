@@ -2,6 +2,7 @@ import datetime
 from django.utils import timezone
 from django.db import models
 from taggit.managers import TaggableManager
+from django import forms
 
 # Create your models here.
 
@@ -37,3 +38,9 @@ class Worksheet(models.Model):
     tags = TaggableManager()
     def get_worksheet_name(self):
         return self.worksheet_name
+
+class ContactForm(forms.Form):
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows': '25', 'cols': '80'}))
+    sender = forms.EmailField()
+    cc_myself = forms.BooleanField(required=False)

@@ -9,6 +9,9 @@
         #id_message{
             width: 650px;
         }
+    .errorlist{
+        color: #ff0000;
+    }
 
     </style>
 
@@ -21,7 +24,24 @@
 			<h3>Contact Us</h3>
 		</div>
         <form method="post">{% csrf_token %}
-            {{ form.as_p }}
+
+            {{ form.non_field_errors }}
+                <div class="fieldWrapper">
+                    {{ form.sender.errors }}
+                    <label for="id_sender">Your email address:</label>
+                    {{ form.sender }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.subject.errors }}
+                    <label for="id_subject">Subject:</label>
+                    {{ form.subject }}
+                </div>
+                <div class="fieldWrapper">
+                    {{ form.message.errors }}
+                    <label for="id_message">Your message:</label>
+                    {{ form.message }}
+                </div>
+
             <p><input type="submit" value="Send Email"></p>
 
         </form>

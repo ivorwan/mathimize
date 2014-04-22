@@ -13,9 +13,9 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from django.core.mail import send_mail
 import random
-
-from mysite.models import Level, Worksheet
+from mysite.models import Level, Worksheet, ContactForm
 
 # Create your views here.
 
@@ -246,3 +246,17 @@ class Addition(Worksheet):
         while (newTerm == term1):
             newTerm = random.randint(minInt, maxInt)
         return newTerm
+
+
+def contact(request):
+     if request.method == 'POST':
+
+         form = ContactForm(request.POST) # A form bound to the POST data
+         if form.is_valid(): # All validation rules pass
+             send_mail(form.cleaned_data["subject"], form.cleaned_data["message"], form.cleaned_data["sender"], ['admin@mathimize.com'], fail_silently=False)
+             return HttpResponseRedirect('/thankyou/')
+     else:
+         form = ContactForm()
+
+     return render(request, 'contact.html', { 'form': form, })
+
