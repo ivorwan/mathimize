@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db import models
 from taggit.managers import TaggableManager
 from django import forms
-
+import random
 # Create your models here.
 
 #class Poll(models.Model):
@@ -38,6 +38,11 @@ class Worksheet(models.Model):
     tags = TaggableManager()
     def get_worksheet_name(self):
         return self.worksheet_name
+    def getDifferentRandomTerm(self, term1, minInt, maxInt):
+        newTerm = random.randint(minInt, maxInt)
+        while (newTerm == term1):
+            newTerm = random.randint(minInt, maxInt)
+        return newTerm
 
 class ContactForm(forms.Form):
     subject = forms.CharField(max_length=100)

@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae6bd52a-1153-4c90-9b51-4ca32a5d4ee2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/contact.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/contact_thankyou.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
+      <change type="DELETED" beforePath="C:\python\mysite\templates\contactus.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/models.py" afterPath="$PROJECT_DIR$/mysite/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/settings.py" afterPath="$PROJECT_DIR$/mysite/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/urls.py" afterPath="$PROJECT_DIR$/mysite/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/views.py" afterPath="$PROJECT_DIR$/mysite/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mysite.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,10 +27,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mysite/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="255" column="0" selection-start="8570" selection-end="8570" vertical-scroll-proportion="0.0" vertical-offset="3996" max-vertical-offset="4556">
+            <state line="250" column="0" selection-start="8463" selection-end="8463" vertical-scroll-proportion="0.627451" vertical-offset="3802" max-vertical-offset="4896">
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
               </folding>
@@ -75,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="base.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="41" selection-start="3958" selection-end="3958" vertical-scroll-proportion="0.73220974" vertical-offset="1071" max-vertical-offset="2720">
+            <state line="86" column="41" selection-start="3958" selection-end="3958" vertical-scroll-proportion="-15.038462" vertical-offset="1071" max-vertical-offset="2720">
               <folding />
             </state>
           </provider>
@@ -97,7 +92,17 @@
         <entry file="file://$PROJECT_DIR$/templates/contact.html">
           <provider selected="true" editor-type-id="text-editor">
             <state line="48" column="22" selection-start="1255" selection-end="1255" vertical-scroll-proportion="-16.615385" vertical-offset="384" max-vertical-offset="918">
-              <folding />
+              <folding>
+                <marker date="1398199325896" expanded="true" signature="133:250" placeholder="..." />
+                <marker date="1398199325896" expanded="true" signature="154:191" placeholder="{...}" />
+                <marker date="1398199325896" expanded="true" signature="206:237" placeholder="{...}" />
+                <marker date="1398199325896" expanded="true" signature="341:1231" placeholder="..." />
+                <marker date="1398199325896" expanded="true" signature="375:407" placeholder="..." />
+                <marker date="1398199325896" expanded="true" signature="436:1220" placeholder="..." />
+                <marker date="1398199325896" expanded="true" signature="536:713" placeholder="..." />
+                <marker date="1398199325896" expanded="true" signature="756:925" placeholder="..." />
+                <marker date="1398199325896" expanded="true" signature="968:1142" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -152,12 +157,12 @@
         <option value="$PROJECT_DIR$/templates/about.html" />
         <option value="$PROJECT_DIR$/templates/contactus.html" />
         <option value="$PROJECT_DIR$/mysite/settings.py" />
-        <option value="$PROJECT_DIR$/mysite/models.py" />
         <option value="$PROJECT_DIR$/templates/contact_thankyou.html" />
         <option value="$PROJECT_DIR$/mysite/urls.py" />
         <option value="$PROJECT_DIR$/templates/contact.html" />
-        <option value="$PROJECT_DIR$/mysite/views.py" />
         <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/mysite/models.py" />
+        <option value="$PROJECT_DIR$/mysite/views.py" />
       </list>
     </option>
   </component>
@@ -588,10 +593,10 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18020834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3831579" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3831579" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22105263" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22105263" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -619,13 +624,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/mysite/views.py</url>
-          <line>255</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -974,15 +972,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="85" selection-start="1539" selection-end="1539" vertical-scroll-proportion="0.0" vertical-offset="307" max-vertical-offset="867">
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/contact_thankyou.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="62" selection-start="350" selection-end="350" vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="391">
@@ -993,6 +982,23 @@
     <entry file="file://$PROJECT_DIR$/templates/contact.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="48" column="22" selection-start="1255" selection-end="1255" vertical-scroll-proportion="-16.615385" vertical-offset="384" max-vertical-offset="918">
+          <folding>
+            <marker date="1398199325896" expanded="true" signature="133:250" placeholder="..." />
+            <marker date="1398199325896" expanded="true" signature="154:191" placeholder="{...}" />
+            <marker date="1398199325896" expanded="true" signature="206:237" placeholder="{...}" />
+            <marker date="1398199325896" expanded="true" signature="341:1231" placeholder="..." />
+            <marker date="1398199325896" expanded="true" signature="375:407" placeholder="..." />
+            <marker date="1398199325896" expanded="true" signature="436:1220" placeholder="..." />
+            <marker date="1398199325896" expanded="true" signature="536:713" placeholder="..." />
+            <marker date="1398199325896" expanded="true" signature="756:925" placeholder="..." />
+            <marker date="1398199325896" expanded="true" signature="968:1142" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="41" selection-start="3958" selection-end="3958" vertical-scroll-proportion="-15.038462" vertical-offset="1071" max-vertical-offset="2720">
           <folding />
         </state>
       </provider>
@@ -1006,19 +1012,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/views.py">
+    <entry file="file://$PROJECT_DIR$/mysite/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="255" column="0" selection-start="8570" selection-end="8570" vertical-scroll-proportion="0.0" vertical-offset="3996" max-vertical-offset="4556">
-          <folding>
-            <element signature="e#0#66#0" expanded="true" />
-          </folding>
+        <state line="5" column="13" selection-start="161" selection-end="161" vertical-scroll-proportion="-0.45535713" vertical-offset="255" max-vertical-offset="867">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/mysite/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="41" selection-start="3958" selection-end="3958" vertical-scroll-proportion="0.73220974" vertical-offset="1071" max-vertical-offset="2720">
-          <folding />
+        <state line="250" column="0" selection-start="8463" selection-end="8463" vertical-scroll-proportion="0.627451" vertical-offset="3802" max-vertical-offset="4896">
+          <folding>
+            <element signature="e#0#66#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

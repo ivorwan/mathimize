@@ -167,6 +167,19 @@ def generatePDFWorksheet(request, worksheet_id):
 
     return response
 
+def contact(request):
+     if request.method == 'POST':
+
+         form = ContactForm(request.POST) # A form bound to the POST data
+         if form.is_valid(): # All validation rules pass
+             send_mail(form.cleaned_data["subject"], form.cleaned_data["message"], form.cleaned_data["sender"], ['admin@mathimize.com'], fail_silently=False)
+             return HttpResponseRedirect('/thankyou/')
+     else:
+         form = ContactForm()
+
+     return render(request, 'contact.html', { 'form': form, })
+
+
 
 
 
@@ -204,26 +217,45 @@ def generatePDFWorksheet(request, worksheet_id):
 #   doc.build(elements)
 #   return response
 
-
-
 class Doubles(Worksheet):
     def getTerms(self):
         termsList = []
         previousTerm = 0
         for i in range(1, self.number_of_exercises):
-            term1 = self.getDifferentRandomTerm(previousTerm)
+            term1 = self.getDifferentRandomTerm(previousTerm, 1, 9)
             previousTerm = term1
             t = Terms(term1, term1, "+")
             termsList.append(t)
 
         return termsList
 
-    def getDifferentRandomTerm(self, term1):
-        newTerm = random.randint(1, 9)
-        while (newTerm == term1):
-            newTerm = random.randint(1, 9)
-        return newTerm
 
+class Subtraction(Worksheet):
+    def getTerms(self):
+        termsList = []
+        for i in range(self.number_of_exercises):
+            if self.level.level_name == 'I':
+                maxInt = 9
+                minInt = 1
+            if self.level.level_name == 'II':
+                maxInt = 99
+                minInt = 10
+
+            if self.level.level_name == 'III':
+                maxInt = 999
+                minInt = 100
+
+            term1 = random.randint(minInt, maxInt)
+            term2 = self.getDifferentRandomTerm(term1, minInt, maxInt)
+            if (term1 < term2):
+                temp = term2
+                term2 = term1
+                term1 = temp
+
+            t = Terms(term1, term2, "-")
+            termsList.append(t)
+
+        return termsList
 
 class Addition(Worksheet):
     def getTerms(self):
@@ -231,32 +263,20 @@ class Addition(Worksheet):
         for i in range(self.number_of_exercises):
             if self.level.level_name == 'I':
                 maxInt = 9
-                term1 = random.randint(1, maxInt)
-                term2 = self.getDifferentRandomTerm(term1, 1, maxInt )
+                minInt = 1
+
             if self.level.level_name == 'II':
                 maxInt = 99
-                term1 = random.randint(10, maxInt)
-                term2 = self.getDifferentRandomTerm(term1, 10, maxInt )
+                minInt = 10
+
+            if self.level.level_name == 'III':
+                maxInt = 999
+                minInt = 100
+
+            term1 = random.randint(minInt, maxInt)
+            term2 = self.getDifferentRandomTerm(term1, minInt, maxInt )
             t = Terms(term1, term2, "+")
             termsList.append(t)
         return termsList
 
-    def getDifferentRandomTerm(self, term1, minInt, maxInt):
-        newTerm = random.randint(minInt, maxInt)
-        while (newTerm == term1):
-            newTerm = random.randint(minInt, maxInt)
-        return newTerm
-
-
-def contact(request):
-     if request.method == 'POST':
-
-         form = ContactForm(request.POST) # A form bound to the POST data
-         if form.is_valid(): # All validation rules pass
-             send_mail(form.cleaned_data["subject"], form.cleaned_data["message"], form.cleaned_data["sender"], ['admin@mathimize.com'], fail_silently=False)
-             return HttpResponseRedirect('/thankyou/')
-     else:
-         form = ContactForm()
-
-     return render(request, 'contact.html', { 'form': form, })
 
