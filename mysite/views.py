@@ -11,8 +11,10 @@ from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT
 from reportlab.lib.units import mm
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, inch
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, BaseDocTemplate, Frame, PageTemplate
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, BaseDocTemplate, Frame, PageTemplate, Flowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.graphics.shapes import Drawing, Line
+
 from django.core.mail import send_mail
 import random
 from mysite.models import Level, Worksheet, ContactForm
@@ -71,7 +73,23 @@ def basicAddition(request):
 
 
 
+class Test:
+    def get_worksheet_name(self):
+        return self._worksheet_name
+    def set_worksheet_name(self, worksheet_name):
+        self._worksheet_name = worksheet_name
+
+    worksheet_name = property(get_worksheet_name, set_worksheet_name)
+
+
+
 class NumberedCanvas(canvas.Canvas):
+    def get_worksheet_name(self):
+        return self._worksheet_name
+    def set_worksheet_name(self, worksheet_name):
+        self._worksheet_name = worksheet_name
+    worksheet_name = property(get_worksheet_name, set_worksheet_name)
+
     def __init__(self, *args, **kwargs):
         canvas.Canvas.__init__(self, *args, **kwargs)
         self._saved_page_states = []
@@ -93,6 +111,8 @@ class NumberedCanvas(canvas.Canvas):
     def draw_title(self):
         self.setFont("Helvetica", 8)
         self.drawRightString(7.8 * inch, 10.25 * inch, "Mathimize.com")
+        self.drawRightString(1.75 * inch, 10.25 * inch, self.worksheet_name)
+
     def draw_page_number(self, page_count):
         # Change the position of this to wherever you want the page number to be
         self.setFillColorRGB(0.47, 0.47, 0.47)
@@ -104,66 +124,131 @@ class NumberedCanvas(canvas.Canvas):
 
 
 
+def getDocTemplate(response, pdfLayout):
+
+    #doc = SimpleDocTemplate(response, pagesize=letter)
+    doc = BaseDocTemplate(response, pagesize=letter)
+
+    if pdfLayout == 'TWO_COLUMNS':
+        #Two Columns
+        frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height , id='col1', showBoundary=1)
+        frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height , id='col2', showBoundary=1)
+        doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame1, frame2]), ])
+
+    if pdfLayout == 'THREE_COLUMNS':
+        #Three Columns
+        frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/3-6, doc.height , id='col1', showBoundary=0)
+        frame2 = Frame(doc.leftMargin+doc.width/3+6, doc.bottomMargin, doc.width/3-6, doc.height , id='col2', showBoundary=0)
+        frame3 = Frame(doc.leftMargin+2*doc.width/3+6, doc.bottomMargin, doc.width/3-6, doc.height , id='col3', showBoundary=0)
+        doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame1, frame2, frame3]), ])
+
+    if pdfLayout == 'FOUR_COLUMNS':
+        #4 Columns
+        frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/4-6, doc.height , id='col1', showBoundary=0)
+        frame2 = Frame(doc.leftMargin+doc.width/4+6, doc.bottomMargin, doc.width/4-6, doc.height , id='col2', showBoundary=0)
+        frame3 = Frame(doc.leftMargin+2*doc.width/4+6, doc.bottomMargin, doc.width/4-6, doc.height , id='col3', showBoundary=0)
+        frame4 = Frame(doc.leftMargin+3*doc.width/4+6, doc.bottomMargin, doc.width/4-6, doc.height , id='col4', showBoundary=0)
+        doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame1, frame2, frame3, frame4]), ])
+
+    return doc
+
+
+def getFormattedElements(termsList, operationLayout):
+    elements = []
+    if operationLayout == 'SINGLE_LINE':
+        for t in termsList:
+            data = []
+            data.append([t.term1, t.operator, t.term2, '='])
+            tbl = Table(data)
+            tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
+                                    ('BOTTOMPADDING',(0,0),(-1,-1), 10),
+                                    ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
+            elements.append(tbl)
+    if operationLayout == 'MULTIPLE_LINES':
+        for t in termsList:
+            data = []
+            data.append(['', t.term1])
+            data.append([t.operator, t.term2])
+
+            tbl = Table(data)
+            tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
+                                    ('BOTTOMPADDING',(0,0),(-1,-1), 8),
+                                     ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
+            elements.append(tbl)
+
+            line = MCLine(50)
+            elements.append(line)
+            elements.append(Spacer(100, 23, isGlue=True))
+
+    return elements
+
 def generatePDFWorksheet(request, worksheet_id):
     response = HttpResponse(content_type='application/pdf')
     #response['Content-Disposition'] = 'attachment; filename="simple_table_grid.pdf"'
 
-    doc = SimpleDocTemplate(response, pagesize=letter)
+    #doc = SimpleDocTemplate(response, pagesize=letter)
 
-    elements = []
+#    elements = []
     styles = getSampleStyleSheet()
 
     #Two Columns
 
-    frame_title = Frame(doc.leftMargin, doc.height + 50, doc.width, 25, id='title', showBoundary=0)
-    frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col1', showBoundary=0)
-    frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col2', showBoundary=0)
+#    frame_title = Frame(doc.leftMargin, doc.height + 50, doc.width, 25, id='title', showBoundary=0)
+#    frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col1', showBoundary=0)
+#    frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col2', showBoundary=0)
 
-    #frame1.drawBoundary(canvas)
-    #frame2.drawBoundary(canvas)
 
     worksheet = Worksheet.objects.get(pk=worksheet_id)
     worksheet_name = worksheet.get_worksheet_name()
 
-    #termsList = locals().get("Level1")
     worksheetInstance = globals()[worksheet_name]()
     worksheetInstance.number_of_exercises = worksheet.number_of_exercises
     worksheetInstance.level = worksheet.level
 
-    ptext = '<font size=10 color=#F00>%s - Level %s</font>' % (worksheet_name, worksheet.level.level_name)
-    elements.append(Paragraph(ptext, styles["Normal"]))
+    #ptext = '<font size=10 color=#F00>%s - Level %s</font>' % (worksheet_name, worksheet.level.level_name)
+    #elements.append(Paragraph(ptext, styles["Normal"]))
 
-    h1 = ParagraphStyle(name='test', fontSize=10, leading=16, alignment=2, rightIndent=20, fixedWidth=100)
+    #h1 = ParagraphStyle(name='test', fontSize=10, leading=16, alignment=2, rightIndent=20, fixedWidth=100)
 
 
-    #termsList = Level1().getTerms()
     termsList = worksheetInstance.getTerms()
-    ptext = ""
-
-    data = []
-    for t in termsList:
-        data.append([t.term1, t.operator, t.term2, '='])
-    t = Table(data)
-    t.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
-                           ('BOTTOMPADDING',(0,0),(-1,-1), 9),
-                            ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
-    elements.append(t)
-#    for t in termsList:
-#        ptext = '<font size=15>%s %s %s = </font>TASD<br/><br/>' % (t.term1, t.operator, t.term2)
-#        p = Paragraph(ptext, h1)
-
-        #elements.append(Paragraph(ptext, styles["Normal"]))
-#        elements.append(p)
 
 
+     #for t in termsList:
 
-        #elements.append(Spacer(1, 15, isGlue=True))
+    #     data = []
+    #     data.append([t.term1, t.operator, t.term2, '='])
+    #     tbl = Table(data)
+    #     tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
+    #                            ('BOTTOMPADDING',(0,0),(-1,-1), 10),
+    #                             ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
+    #     elements.append(tbl)
 
+    # for t in termsList:
+    #     data = []
+    #     data.append(['', t.term1])
+    #     data.append([t.operator, t.term2])
+    #
+    #     tbl = Table(data)
+    #     tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
+    #                             ('BOTTOMPADDING',(0,0),(-1,-1), 8),
+    #                              ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
+    #     elements.append(tbl)
+    #     line = MCLine(50)
+    #     elements.append(line)
+    #     elements.append(Spacer(100, 23, isGlue=True))
 
-    doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame_title, frame1,frame2]), ])
+#    doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame_title, frame1,frame2]), ])
 
-    # write the document to disk
-    doc.build(elements, canvasmaker=NumberedCanvas)
+    #elements = getFormattedElements(termsList, 'MULTIPLE_LINES')
+    #doc = getDocTemplate(response, 'FOUR_COLUMNS')
+
+    elements = getFormattedElements(termsList, worksheetInstance.getElementsTemplate())
+    doc = getDocTemplate(response, worksheetInstance.getDocTemplate())
+
+    nc = NumberedCanvas
+    nc.worksheet_name = '%s - Level %s' % (worksheet_name, worksheet.level.level_name)
+    doc.build(elements, canvasmaker=nc)
 
     return response
 
@@ -180,7 +265,21 @@ def contact(request):
      return render(request, 'contact.html', { 'form': form, })
 
 
-
+class MCLine(Flowable):
+    #Line flowable --- draws a line in a flowable
+    #http://two.pairlist.net/pipermail/reportlab-users/2005-February/003695.html
+    #----------------------------------------------------------------------
+    def __init__(self, width, height=0):
+        Flowable.__init__(self)
+        self.width = width
+        self.height = height
+    #----------------------------------------------------------------------
+    def __repr__(self):
+        return "Line(w=%s)" % self.width
+    #----------------------------------------------------------------------
+    def draw(self):
+        x = (self._frame.width - self.width) / 2
+        self.canv.line(x, self.height, x + self.width, self.height)
 
 
 #def generatePDF(request, rows, cols):
@@ -228,6 +327,10 @@ class Doubles(Worksheet):
             termsList.append(t)
 
         return termsList
+    def getDocTemplate(self):
+        return 'TWO_COLUMNS'
+    def getElementsTemplate(self):
+        return 'SINGLE_LINE'
 
 
 class Subtraction(Worksheet):
@@ -256,6 +359,10 @@ class Subtraction(Worksheet):
             termsList.append(t)
 
         return termsList
+    def getDocTemplate(self):
+        return 'TWO_COLUMNS'
+    def getElementsTemplate(self):
+        return 'SINGLE_LINE'
 
 class Addition(Worksheet):
     def getTerms(self):
@@ -278,5 +385,13 @@ class Addition(Worksheet):
             t = Terms(term1, term2, "+")
             termsList.append(t)
         return termsList
+    def getDocTemplate(self):
+        if self.level.level_name == 'III':
+            return 'FOUR_COLUMNS'
+        return 'TWO_COLUMNS'
+    def getElementsTemplate(self):
+        if self.level.level_name == 'III':
+            return 'MULTIPLE_LINES'
+        return 'SINGLE_LINE'
 
 

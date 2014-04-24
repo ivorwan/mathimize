@@ -4,6 +4,8 @@ from django.db import models
 from taggit.managers import TaggableManager
 from django import forms
 import random
+
+
 # Create your models here.
 
 #class Poll(models.Model):
@@ -49,3 +51,4 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={'rows': '25', 'cols': '80'}))
     sender = forms.EmailField()
     cc_myself = forms.BooleanField(required=False)
+
