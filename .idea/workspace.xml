@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ae6bd52a-1153-4c90-9b51-4ca32a5d4ee2" name="Default" comment="">
       <change type="DELETED" beforePath="C:\python\mysite\templates\contactus.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/models.py" afterPath="$PROJECT_DIR$/mysite/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysite/views.py" afterPath="$PROJECT_DIR$/mysite/views.py" />
     </list>
     <ignored path="mysite.iws" />
@@ -30,7 +29,7 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mysite/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="245" column="84" selection-start="9621" selection-end="9621" vertical-scroll-proportion="0.2647059" vertical-offset="3976" max-vertical-offset="6851">
+            <state line="366" column="39" selection-start="13629" selection-end="13629" vertical-scroll-proportion="0.21428572" vertical-offset="6069" max-vertical-offset="6919">
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
               </folding>
@@ -596,7 +595,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3831579" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22105263" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22105263" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1030,7 +1029,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mysite/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="84" selection-start="9621" selection-end="9621" vertical-scroll-proportion="0.2647059" vertical-offset="3976" max-vertical-offset="6851">
+        <state line="366" column="39" selection-start="13629" selection-end="13629" vertical-scroll-proportion="0.21428572" vertical-offset="6069" max-vertical-offset="6919">
           <folding>
             <element signature="e#0#66#0" expanded="true" />
           </folding>

@@ -131,8 +131,8 @@ def getDocTemplate(response, pdfLayout):
 
     if pdfLayout == 'TWO_COLUMNS':
         #Two Columns
-        frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height , id='col1', showBoundary=1)
-        frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height , id='col2', showBoundary=1)
+        frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height , id='col1', showBoundary=0)
+        frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height , id='col2', showBoundary=0)
         doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame1, frame2]), ])
 
     if pdfLayout == 'THREE_COLUMNS':
@@ -360,8 +360,12 @@ class Subtraction(Worksheet):
 
         return termsList
     def getDocTemplate(self):
+        if self.level.level_name == 'II':
+            return 'FOUR_COLUMNS'
         return 'TWO_COLUMNS'
     def getElementsTemplate(self):
+        if self.level.level_name == 'II':
+            return 'MULTIPLE_LINES'
         return 'SINGLE_LINE'
 
 class Addition(Worksheet):
