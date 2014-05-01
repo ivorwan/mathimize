@@ -547,6 +547,13 @@
 }
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
+
+/*
+    #showcase .container{
+        width: 100%;
+    }
+*/
+
     #partner-slider,
     #feature_slider {
         display: none;

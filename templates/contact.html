@@ -6,9 +6,11 @@
 
 {% block header %}
     <style>
+    /*
         #id_message{
             width: 650px;
         }
+    */
     .errorlist{
         color: #ff0000;
     }
@@ -23,26 +25,32 @@
 	    <div class="section_header">
 			<h3>Contact Us</h3>
 		</div>
-        <form method="post">{% csrf_token %}
+        <form method="post" role="form" class="form-horizontal">{% csrf_token %}
 
             {{ form.non_field_errors }}
-                <div class="fieldWrapper">
+                <div class="form-group">
                     {{ form.sender.errors }}
-                    <label for="id_sender">Your email address:</label>
-                    {{ form.sender }}
+                    <label for="id_sender" class="col-sm-2 control-label">Email address:</label>
+                    <div class="col-sm-10">
+                        {{ form.sender }}
+                    </div>
                 </div>
-                <div class="fieldWrapper">
+                <div class="form-group">
                     {{ form.subject.errors }}
-                    <label for="id_subject">Subject:</label>
+                    <label for="id_subject" class="col-sm-2 control-label">Subject:</label>
+                    <div class="col-sm-10">
                     {{ form.subject }}
+                        </div>
                 </div>
-                <div class="fieldWrapper">
+                <div class="form-group">
                     {{ form.message.errors }}
-                    <label for="id_message">Your message:</label>
+                    <label for="id_message" class="col-sm-2 control-label">Your message:</label>
+                    <div class="col-sm-10">
                     {{ form.message }}
+                        </div>
                 </div>
 
-            <p><input type="submit" value="Send Email"></p>
+            <p class="pull-right"><input type="submit" value="Send Email" class="btn btn-primary"></p>
 
         </form>
     </div>

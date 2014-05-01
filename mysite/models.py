@@ -47,8 +47,8 @@ class Worksheet(models.Model):
         return newTerm
 
 class ContactForm(forms.Form):
-    subject = forms.CharField(max_length=100)
-    message = forms.CharField(widget=forms.Textarea(attrs={'rows': '25', 'cols': '80'}))
-    sender = forms.EmailField()
+    subject = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter Subject'}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows': '25', 'cols': '80', 'class': 'form-control', 'placeholder':'Enter Your Message'}))
+    sender = forms.EmailField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Enter Email'}))
     cc_myself = forms.BooleanField(required=False)
 

@@ -29,6 +29,11 @@ body.pull_top {
 header {
     background: rgba(0,0,0,.6) !important;
 }
+
+.navbar-inverse{
+    background-color: transparent;
+}
+
 .navbar.navbar-static-top {
     margin-bottom: 35px;
 }
