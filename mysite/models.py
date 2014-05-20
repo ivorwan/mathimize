@@ -8,7 +8,7 @@ import random
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-#from enum import Enum
+
 
 # Create your models here.
 
@@ -60,6 +60,7 @@ class Worksheet(models.Model):
 #    Tuesday = 2
 #    Wednesday = 4
 #    Thursday = 8
+
 #class Provider(models.Model):
 #    days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]
 
