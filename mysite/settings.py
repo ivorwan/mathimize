@@ -56,7 +56,7 @@ INSTALLED_APPS = (
 	
 )
 
-LOGIN_REDIRECT_URL='/polls/'
+LOGIN_REDIRECT_URL='/'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

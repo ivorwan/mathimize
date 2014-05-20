@@ -15,11 +15,16 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
     PageTemplate, Flowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.graphics.shapes import Drawing, Line
+from django.contrib import messages
 
-from django.core.mail import send_mail
+
 import random
 import sendgrid
-from mysite.models import Level, Worksheet, ContactForm
+from mysite.models import Level, Worksheet, ContactForm, RegisterForm
+
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+
 
 # Create your views here.
 
@@ -74,15 +79,6 @@ def basicAddition(request):
 #     # return response
 #     return
 
-
-class Test:
-    def get_worksheet_name(self):
-        return self._worksheet_name
-
-    def set_worksheet_name(self, worksheet_name):
-        self._worksheet_name = worksheet_name
-
-    worksheet_name = property(get_worksheet_name, set_worksheet_name)
 
 
 class NumberedCanvas(canvas.Canvas):
@@ -188,98 +184,6 @@ def getFormattedElements(termsList, operationLayout):
             elements.append(Spacer(100, 23, isGlue=True))
 
     return elements
-
-
-def generatePDFWorksheet(request, worksheet_id):
-    response = HttpResponse(content_type='application/pdf')
-    #response['Content-Disposition'] = 'attachment; filename="simple_table_grid.pdf"'
-
-    #doc = SimpleDocTemplate(response, pagesize=letter)
-
-    #    elements = []
-    styles = getSampleStyleSheet()
-
-    #Two Columns
-
-    #    frame_title = Frame(doc.leftMargin, doc.height + 50, doc.width, 25, id='title', showBoundary=0)
-    #    frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col1', showBoundary=0)
-    #    frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col2', showBoundary=0)
-
-    worksheet = Worksheet.objects.get(pk=worksheet_id)
-    worksheet_name = worksheet.get_worksheet_name()
-    worksheetInstance = globals()[worksheet_name]()
-    worksheetInstance.number_of_exercises = worksheet.number_of_exercises
-    worksheetInstance.level = worksheet.level
-
-    #ptext = '<font size=10 color=#F00>%s - Level %s</font>' % (worksheet_name, worksheet.level.level_name)
-    #elements.append(Paragraph(ptext, styles["Normal"]))
-
-    #h1 = ParagraphStyle(name='test', fontSize=10, leading=16, alignment=2, rightIndent=20, fixedWidth=100)
-
-    termsList = worksheetInstance.getTerms()
-
-
-    #for t in termsList:
-
-    #     data = []
-    #     data.append([t.term1, t.operator, t.term2, '='])
-    #     tbl = Table(data)
-    #     tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
-    #                            ('BOTTOMPADDING',(0,0),(-1,-1), 10),
-    #                             ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
-    #     elements.append(tbl)
-
-    # for t in termsList:
-    #     data = []
-    #     data.append(['', t.term1])
-    #     data.append([t.operator, t.term2])
-    #
-    #     tbl = Table(data)
-    #     tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
-    #                             ('BOTTOMPADDING',(0,0),(-1,-1), 8),
-    #                              ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
-    #     elements.append(tbl)
-    #     line = MCLine(50)
-    #     elements.append(line)
-    #     elements.append(Spacer(100, 23, isGlue=True))
-
-    #    doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame_title, frame1,frame2]), ])
-
-    #elements = getFormattedElements(termsList, 'MULTIPLE_LINES')
-    #doc = getDocTemplate(response, 'FOUR_COLUMNS')
-
-    elements = getFormattedElements(termsList, worksheetInstance.getElementsTemplate())
-    doc = getDocTemplate(response, worksheetInstance.getDocTemplate())
-
-    nc = NumberedCanvas
-    nc.worksheet_name = '%s - Level %s' % (worksheet_name, worksheet.level.level_name)
-    doc.build(elements, canvasmaker=nc)
-
-    return response
-
-
-def contact(request):
-    if request.method == 'POST':
-
-        form = ContactForm(request.POST)  # A form bound to the POST data
-        if form.is_valid():  # All validation rules pass
-
-            #send_mail(form.cleaned_data["subject"], form.cleaned_data["message"], form.cleaned_data["sender"], ['admin@mathimize.com'], fail_silently=False)
-            sg = sendgrid.SendGridClient('app23000735@heroku.com', '5wqtuwsb')
-
-            message = sendgrid.Mail()
-            message.add_to('Mathimize <admin@mathimize.com>')
-            message.set_subject(form.cleaned_data["subject"])
-            message.set_html(form.cleaned_data["message"])
-            message.set_text(form.cleaned_data["message"])
-            message.set_from(form.cleaned_data["sender"])
-            status, msg = sg.send(message)
-
-            return HttpResponseRedirect('/thankyou/')
-    else:
-        form = ContactForm()
-
-    return render(request, 'contact.html', {'form': form, })
 
 
 class MCLine(Flowable):
@@ -438,4 +342,136 @@ class Addition(Worksheet):
             return 'MULTIPLE_LINES'
         return 'SINGLE_LINE'
 
+
+#################################################
+# URL REQUESTS
+#################################################
+
+def login_test(request):
+    auth = authenticate(username='admin', password='Meier$2')
+    login(request, auth)
+    return redirect('mysite_home')
+
+def register(request):
+    if request.method == 'POST':
+        register_form = RegisterForm(request.POST)
+        if register_form.is_valid():
+            #data = register_form.data
+
+            # create user
+            #user = User.objects.create_user(
+            #    username=register_form.clean_username(),
+            #    email=register_form.clean_email(),
+            #    password=register_form.clean_password2(),
+            #)
+            username = register_form.clean_username()
+            password = register_form.clean_password2()
+            register_form.save()
+
+            auth = authenticate(username=username, password=password)
+            login(request, auth)
+
+            messages.success(request, 'Your new user has been created.')
+            return redirect(reverse('mysite_home'))
+    else:
+        register_form = RegisterForm()
+
+    #return render(request, 'accounts/register.html')
+
+    #context = {'form': register_form }
+    #return render_to_response('accounts/register.html', context)
+    return render(request, 'accounts/register.html', {'form': register_form })
+
+
+
+def generatePDFWorksheet(request, worksheet_id):
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="simple_table_grid.pdf"'
+
+    #doc = SimpleDocTemplate(response, pagesize=letter)
+
+    #    elements = []
+    styles = getSampleStyleSheet()
+
+    #Two Columns
+
+    #    frame_title = Frame(doc.leftMargin, doc.height + 50, doc.width, 25, id='title', showBoundary=0)
+    #    frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col1', showBoundary=0)
+    #    frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col2', showBoundary=0)
+
+    worksheet = Worksheet.objects.get(pk=worksheet_id)
+    worksheet_name = worksheet.get_worksheet_name()
+    worksheetInstance = globals()[worksheet_name]()
+    worksheetInstance.number_of_exercises = worksheet.number_of_exercises
+    worksheetInstance.level = worksheet.level
+
+    #ptext = '<font size=10 color=#F00>%s - Level %s</font>' % (worksheet_name, worksheet.level.level_name)
+    #elements.append(Paragraph(ptext, styles["Normal"]))
+
+    #h1 = ParagraphStyle(name='test', fontSize=10, leading=16, alignment=2, rightIndent=20, fixedWidth=100)
+
+    termsList = worksheetInstance.getTerms()
+
+
+    #for t in termsList:
+
+    #     data = []
+    #     data.append([t.term1, t.operator, t.term2, '='])
+    #     tbl = Table(data)
+    #     tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
+    #                            ('BOTTOMPADDING',(0,0),(-1,-1), 10),
+    #                             ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
+    #     elements.append(tbl)
+
+    # for t in termsList:
+    #     data = []
+    #     data.append(['', t.term1])
+    #     data.append([t.operator, t.term2])
+    #
+    #     tbl = Table(data)
+    #     tbl.setStyle(TableStyle([('FONTSIZE',(0,0),(-1,-1), 15),
+    #                             ('BOTTOMPADDING',(0,0),(-1,-1), 8),
+    #                              ('TEXTCOLOR',(0,0),(-1,-1),colors.black)]))
+    #     elements.append(tbl)
+    #     line = MCLine(50)
+    #     elements.append(line)
+    #     elements.append(Spacer(100, 23, isGlue=True))
+
+    #    doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame_title, frame1,frame2]), ])
+
+    #elements = getFormattedElements(termsList, 'MULTIPLE_LINES')
+    #doc = getDocTemplate(response, 'FOUR_COLUMNS')
+
+    elements = getFormattedElements(termsList, worksheetInstance.getElementsTemplate())
+    doc = getDocTemplate(response, worksheetInstance.getDocTemplate())
+
+    nc = NumberedCanvas
+    nc.worksheet_name = '%s - Level %s' % (worksheet_name, worksheet.level.level_name)
+    doc.build(elements, canvasmaker=nc)
+
+    return response
+
+
+def contact(request):
+    if request.method == 'POST':
+
+        form = ContactForm(request.POST)  # A form bound to the POST data
+        if form.is_valid():  # All validation rules pass
+
+            #send_mail(form.cleaned_data["subject"], form.cleaned_data["message"], form.cleaned_data["sender"], ['admin@mathimize.com'], fail_silently=False)
+            sg = sendgrid.SendGridClient('app23000735@heroku.com', '5wqtuwsb')
+
+            message = sendgrid.Mail()
+            message.add_to('Mathimize <admin@mathimize.com>')
+            message.set_subject(form.cleaned_data["subject"])
+            message.set_html(form.cleaned_data["message"])
+            message.set_text(form.cleaned_data["message"])
+            message.set_from(form.cleaned_data["sender"])
+            status, msg = sg.send(message)
+
+            return HttpResponseRedirect('/thankyou/')
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {'form': form, })
 

@@ -40,15 +40,15 @@ def vote(request, poll_id):
 		
 		
 def login(request):
-    # m = Member.objects.get(username=request.POST['username'])
+#    m = Member.objects.get(username=request.POST['username'])
 	
-    #if m.password == request.POST['password']:
-        #request.session['member_id'] = m.id
+#    if m.password == request.POST['password']:
+ #       request.session['member_id'] = m.id
 		#request.session['member_id'] = 123
-        #return HttpResponse("You're logged in.")
-    #else:
-    #    return HttpResponse("Your username and password didn't match.")		
-	request.session['member_id'] = 123
+  #      return HttpResponse("You're logged in.")
+  #  else:
+   #     return HttpResponse("Your username and password didn't match.")
+	#request.session['member_id'] = 123
 	return HttpResponse("You're logged in.")
 
 def logout(request):
