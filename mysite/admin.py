@@ -2,6 +2,12 @@ from django.contrib import admin
 from django import forms
 from mysite.models import Level
 from mysite.models import Worksheet
+from mysite.models import WorksheetInt1Rules
+from mysite.models import WorksheetInt2Rules
+from mysite.models import DaysOfWeekSlot
+from mysite.models import CalendarDaySlot
+from mysite.models import Provider
+
 
 class LevelAdmin(admin.ModelAdmin):
     model = Level
@@ -21,6 +27,14 @@ class WorksheetAdminForm(forms.ModelForm):
     class Meta:
         model = Worksheet
 
+class WorksheetInt1RulesInline(admin.TabularInline):
+    model = WorksheetInt1Rules
+    extra = 1
+
+class WorksheetInt2RulesInline(admin.TabularInline):
+    model = WorksheetInt2Rules
+    extra = 1
+
 class WorksheetAdmin(admin.ModelAdmin):
 #    model = Worksheet
     list_display = ['worksheet_name', 'get_level_name', 'description', 'number_of_exercises', 'average_time']
@@ -28,9 +42,36 @@ class WorksheetAdmin(admin.ModelAdmin):
     def get_level_name(self, obj):
         return obj.level.level_name
     get_level_name.short_description = 'Level'
+    inlines = [WorksheetInt1RulesInline, WorksheetInt2RulesInline]
+
+
+
+class DaysOfWeekSlotInline(admin.StackedInline):
+    model = DaysOfWeekSlot
+    extra = 0
+
+class CalendarDaySlotInline(admin.TabularInline):
+    model = CalendarDaySlot
+    extra = 1
+
+class ProviderAdmin(admin.ModelAdmin):
+    class Media:
+        #js = ('//code.jquery.com/ui/1.10.4/jquery-ui.js',)
+        js = ('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js',)
+    def test(self):
+        return ''
+
+
+#class ProviderAdminForm(forms.ModelForm):
+
+#class ProviderAdmin(admin.ModelAdmin):
+
+
 
 admin.site.register(Level, LevelAdmin)
 admin.site.register(Worksheet, WorksheetAdmin)
 
-
+admin.site.register(DaysOfWeekSlot)
+admin.site.register(CalendarDaySlot)
+admin.site.register(Provider, ProviderAdmin)
 

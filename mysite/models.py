@@ -15,20 +15,20 @@ from django import forms
 #class Poll(models.Model):
 #    question = models.CharField(max_length=200)
 #    pub_date = models.DateTimeField('date published')
-#    def __str__(self):
-#        return str(self.question)
-#    def was_published_recently(self):
-#        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
-#    was_published_recently.admin_order_field = 'pub_date'
-#    was_published_recently.boolean = True
-#    was_published_recently.short_description = 'Published recently?'
-
-#class Choice(models.Model):
-#    poll = models.ForeignKey(Poll)
-#    choice = models.CharField(max_length=200)
-#    votes = models.IntegerField()
-#    def __str__(self):
-#        return str(self.choice)
+#     def __str__(self):
+#         return str(self.question)
+#     def was_published_recently(self):
+#         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+#     was_published_recently.admin_order_field = 'pub_date'
+#     was_published_recently.boolean = True
+#     was_published_recently.short_description = 'Published recently?'
+#
+# class Choice(models.Model):
+#     poll = models.ForeignKey(Poll)
+#     choice = models.CharField(max_length=200)
+#     votes = models.IntegerField()
+#     def __str__(self):
+#         return str(self.choice)
 
 #====================================================================================
 # business models
@@ -46,14 +46,53 @@ class Worksheet(models.Model):
     number_of_exercises = models.IntegerField()
     average_time = models.IntegerField()
     tags = TaggableManager()
+
+    min_int_1 = models.IntegerField()
+    max_int_1 = models.IntegerField()
+    min_int_2 = models.IntegerField()
+    max_int_2 = models.IntegerField()
+
     def get_worksheet_name(self):
         return self.worksheet_name
+
     def getDifferentRandomTerm(self, term1, minInt, maxInt):
         newTerm = random.randint(minInt, maxInt)
         while (newTerm == term1):
             newTerm = random.randint(minInt, maxInt)
         return newTerm
+    def getRandomInt(self, minInt, maxInt, rules):
+        randomNumber = random.randint(minInt, maxInt)
+        # the while loop is not very optimal, but is quite generic to find a proper term that meets the criteria intEval
+        while self.evalRules(randomNumber, rules.all()) == False:
+            randomNumber = random.randint(minInt, maxInt)
 
+        return  randomNumber
+    def get_int_1_rules(self):
+        # figure a BETTER WAY BETTER way to do this!!!!!!
+        worksheet = Worksheet.objects.get(pk=self.id)
+        return worksheet.worksheetint1rules_set
+
+    def get_int_2_rules(self):
+        # figure a BETTER WAY BETTER way to do this!!!!!!
+        worksheet = Worksheet.objects.get(pk=self.id)
+        return worksheet.worksheetint2rules_set
+
+    def evalRules(self, randomNumber, rules):
+        is_valid = True
+        for r in rules.all():
+           if eval(str(randomNumber) + r.rule) == False:
+               is_valid = False
+               break
+        return  is_valid
+
+
+class WorksheetInt1Rules(models.Model):
+    worksheet = models.ForeignKey(Worksheet)
+    rule = models.CharField(max_length=100)
+
+class WorksheetInt2Rules(models.Model):
+    worksheet = models.ForeignKey(Worksheet)
+    rule = models.CharField(max_length=100)
 
 #class DaysOfWeek(Enum):
 #    Monday = 1
@@ -61,8 +100,37 @@ class Worksheet(models.Model):
 #    Wednesday = 4
 #    Thursday = 8
 
-#class Provider(models.Model):
-#    days = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]
+DAYS_OF_WEEK = ((1, 'Monday'), (2, 'Tuesday'), (4, 'Wednesday'), (8, 'Thursday'), (16, 'Friday'), (32, 'Saturday'), (64, 'Sunday'))
+    #days = {'Monday': 1,  'Tuesday': 2,  'Wednesday': 4,  'Thursday': 8, 'Friday': 16, 'Saturday': 32,  'Sunday': 64}
+
+class Provider(models.Model):
+    name = models.CharField(max_length=30)
+    #blockedDaysOfWeekSlots = models.ForeignKey(DaysOfWeekSlot)
+    #blockedCalendarDaysSlots = models.ForeignKey(CalendarDaySlot)
+    def __str__(self):
+        return str(self.name)
+    def get_blocked_days_of_week(self):
+        return
+
+class DaysOfWeekSlot(models.Model):
+    provider = models.ForeignKey(Provider)
+    weekday = models.IntegerField(choices=DAYS_OF_WEEK)
+    time = models.TimeField()
+    class Meta:
+        unique_together = (("provider", "weekday", "time"),)
+    def __str__(self):
+        return "%s - %s - %s" % (str(self.provider), str(self.weekday), str(self.time))
+
+class CalendarDaySlot(models.Model):
+    provider = models.ForeignKey(Provider)
+    date = models.DateField()
+    time = models.TimeField()
+    class Meta:
+        unique_together = (("provider", "date", "time"),)
+    def __str__(self):
+        return "%s - %s - %s" % (str(self.provider), str(self.date), str(self.time))
+
+
 
 
 

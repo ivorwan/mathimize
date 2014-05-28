@@ -176,7 +176,8 @@ def getFormattedElements(termsList, operationLayout):
             tbl = Table(data)
             tbl.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 15),
                                      ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-                                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black)]))
+                                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+                                    ('ALIGN', (0,0), (-1,-1), 'RIGHT')]))
             elements.append(tbl)
 
             line = MCLine(50)
@@ -247,6 +248,8 @@ class Doubles(Worksheet):
         previousTerm = 0
         for i in range(1, self.number_of_exercises):
             term1 = self.getDifferentRandomTerm(previousTerm, 1, 9)
+
+            #term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.int_2_rules)
             previousTerm = term1
             t = Terms(term1, term1, "+")
             termsList.append(t)
@@ -301,6 +304,7 @@ class Subtraction(Worksheet):
 class Addition(Worksheet):
     def getTerms(self):
         termsList = []
+        int1Eval = ''
         for i in range(self.number_of_exercises):
             if self.level.level_name == 'I':
                 maxInt1 = 9
@@ -315,8 +319,9 @@ class Addition(Worksheet):
                 minInt2 = 1
 
             elif self.level.level_name == 'III':
+                int1Eval = '% 10 >= 5'
                 maxInt1 = 99
-                minInt2 = 11
+                minInt1 = 11
                 maxInt2 = 9
                 minInt2 = 1
             elif self.level.level_name == 'IV':
@@ -325,12 +330,17 @@ class Addition(Worksheet):
                 maxInt2 = 99
                 minInt2 = 11
 
-
-            term1 = random.randint(minInt1, maxInt1)
-            term2 = self.getDifferentRandomTerm(term1, minInt2, maxInt2)
+            #term1 = random.randint(minInt1, maxInt1)
+            #term1 = self.getRandomInt(minInt1, maxInt1, int1Eval)
+            term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
+            #term2 = self.getDifferentRandomTerm(term1, minInt2, maxInt2)
+            #term2 = self.getRandomInt(minInt2, maxInt2, ' != ' + str(term1))
+            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules())
             t = Terms(term1, term2, "+")
             termsList.append(t)
         return termsList
+
+
 
     def getDocTemplate(self):
         if self.level.level_name == 'III':
@@ -399,16 +409,12 @@ def generatePDFWorksheet(request, worksheet_id):
     #    frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col1', showBoundary=0)
     #    frame2 = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height - 30, id='col2', showBoundary=0)
 
-    worksheet = Worksheet.objects.get(pk=worksheet_id)
-    worksheet_name = worksheet.get_worksheet_name()
-    worksheetInstance = globals()[worksheet_name]()
-    worksheetInstance.number_of_exercises = worksheet.number_of_exercises
-    worksheetInstance.level = worksheet.level
-
-    #ptext = '<font size=10 color=#F00>%s - Level %s</font>' % (worksheet_name, worksheet.level.level_name)
-    #elements.append(Paragraph(ptext, styles["Normal"]))
-
-    #h1 = ParagraphStyle(name='test', fontSize=10, leading=16, alignment=2, rightIndent=20, fixedWidth=100)
+    worksheetInstance = Worksheet.objects.get(pk=worksheet_id)
+    worksheetInstance.__class__ = eval(worksheetInstance.get_worksheet_name())
+#    worksheet_name = worksheet.get_worksheet_name()
+#    worksheetInstance = globals()[worksheet_name]()
+#    worksheetInstance.number_of_exercises = worksheet.number_of_exercises
+#    worksheetInstance.level = worksheet.level
 
     termsList = worksheetInstance.getTerms()
 
@@ -446,7 +452,7 @@ def generatePDFWorksheet(request, worksheet_id):
     doc = getDocTemplate(response, worksheetInstance.getDocTemplate())
 
     nc = NumberedCanvas
-    nc.worksheet_name = '%s - Level %s' % (worksheet_name, worksheet.level.level_name)
+    nc.worksheet_name = '%s - Level %s' % (worksheetInstance.get_worksheet_name(), worksheetInstance.level.level_name)
     doc.build(elements, canvasmaker=nc)
 
     return response
