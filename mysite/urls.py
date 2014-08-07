@@ -20,7 +20,7 @@ urlpatterns = patterns('',
 	#url(r'^(?i)addition/basic',  'mysite.views.basicAddition' ),
     url(r'^(?i)worksheets',
         ListView.as_view(
-            queryset=Worksheet.objects.all(),
+            queryset=Worksheet.objects.all().order_by('worksheet_name', 'level'),
             context_object_name='worksheet_list',
             template_name='worksheets.html')),
 	#url(r'^(?i)addition/some_view',  'mysite.views.some_view' ),
