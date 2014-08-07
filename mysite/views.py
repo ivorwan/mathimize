@@ -293,10 +293,14 @@ class Subtraction(Worksheet):
     def getDocTemplate(self):
         if self.level.level_name == 'II':
             return 'FOUR_COLUMNS'
+        if self.level.level_name == 'III':
+            return 'FOUR_COLUMNS'
         return 'TWO_COLUMNS'
 
     def getElementsTemplate(self):
         if self.level.level_name == 'II':
+            return 'MULTIPLE_LINES'
+        if self.level.level_name == 'III':
             return 'MULTIPLE_LINES'
         return 'SINGLE_LINE'
 
