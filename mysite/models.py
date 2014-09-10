@@ -39,8 +39,23 @@ class Level(models.Model):
     def get_level_name(self):
         return self.level_name
 
+
+
 class Worksheet(models.Model):
-    worksheet_name = models.CharField(max_length=20)
+
+    WORKSHEET_NAME_CHOICES = (
+        ('Addition', 'Addition'),
+        ('Subtraction', 'Subtraction'),
+        ('Multiplication', 'Multiplication')
+    )
+    TEMPLATE_CHOICES = (
+        ('TWOCOL', 'Two Columns, Multiple Lines Operations'),
+        ('THREECOL', 'Three Columns'),
+        ('FOURCOL', 'Four Columns, Single Line Operations')
+    )
+
+
+    worksheet_name = models.CharField(max_length=20, choices=WORKSHEET_NAME_CHOICES)
     level = models.ForeignKey(Level)
     description = models.CharField(max_length=2000)
     number_of_exercises = models.IntegerField()
@@ -51,6 +66,8 @@ class Worksheet(models.Model):
     max_int_1 = models.IntegerField()
     min_int_2 = models.IntegerField()
     max_int_2 = models.IntegerField()
+
+    worksheet_template = models.CharField(max_length=10, choices=TEMPLATE_CHOICES)
 
     def get_worksheet_name(self):
         return self.worksheet_name
@@ -94,6 +111,9 @@ class WorksheetInt2Rules(models.Model):
     worksheet = models.ForeignKey(Worksheet)
     rule = models.CharField(max_length=100)
 
+
+
+########################################################################################################################################
 #class DaysOfWeek(Enum):
 #    Monday = 1
 #    Tuesday = 2

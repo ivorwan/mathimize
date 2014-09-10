@@ -126,14 +126,14 @@ def getDocTemplate(response, pdfLayout):
     #doc = SimpleDocTemplate(response, pagesize=letter)
     doc = BaseDocTemplate(response, pagesize=letter)
 
-    if pdfLayout == 'TWO_COLUMNS':
+    if pdfLayout == 'TWOCOL':
         #Two Columns
         frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width / 2 - 6, doc.height, id='col1', showBoundary=0)
         frame2 = Frame(doc.leftMargin + doc.width / 2 + 6, doc.bottomMargin, doc.width / 2 - 6, doc.height, id='col2',
                        showBoundary=0)
         doc.addPageTemplates([PageTemplate(id='TwoCol', frames=[frame1, frame2]), ])
 
-    if pdfLayout == 'THREE_COLUMNS':
+    if pdfLayout == 'THREECOL':
         #Three Columns
         frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width / 3 - 6, doc.height, id='col1', showBoundary=0)
         frame2 = Frame(doc.leftMargin + doc.width / 3 + 6, doc.bottomMargin, doc.width / 3 - 6, doc.height, id='col2',
@@ -142,7 +142,7 @@ def getDocTemplate(response, pdfLayout):
                        id='col3', showBoundary=0)
         doc.addPageTemplates([PageTemplate(id='TwoCol', frames=[frame1, frame2, frame3]), ])
 
-    if pdfLayout == 'FOUR_COLUMNS':
+    if pdfLayout == 'FOURCOL':
         #4 Columns
         frame1 = Frame(doc.leftMargin, doc.bottomMargin, doc.width / 4 - 6, doc.height, id='col1', showBoundary=0)
         frame2 = Frame(doc.leftMargin + doc.width / 4 + 6, doc.bottomMargin, doc.width / 4 - 6, doc.height, id='col2',
@@ -158,7 +158,7 @@ def getDocTemplate(response, pdfLayout):
 
 def getFormattedElements(termsList, operationLayout):
     elements = []
-    if operationLayout == 'SINGLE_LINE':
+    if operationLayout == 'FOURCOL':
         for t in termsList:
             data = []
             data.append([t.term1, t.operator, t.term2, '='])
@@ -167,7 +167,7 @@ def getFormattedElements(termsList, operationLayout):
                                      ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
                                      ('TEXTCOLOR', (0, 0), (-1, -1), colors.black)]))
             elements.append(tbl)
-    if operationLayout == 'MULTIPLE_LINES':
+    if operationLayout == 'TWOCOL':
         for t in termsList:
             data = []
             data.append(['', t.term1])
@@ -267,19 +267,8 @@ class Subtraction(Worksheet):
     def getTerms(self):
         termsList = []
         for i in range(self.number_of_exercises):
-            if self.level.level_name == 'I':
-                maxInt = 9
-                minInt = 1
-            if self.level.level_name == 'II':
-                maxInt = 99
-                minInt = 10
-
-            if self.level.level_name == 'III':
-                maxInt = 999
-                minInt = 100
-
-            term1 = random.randint(minInt, maxInt)
-            term2 = self.getDifferentRandomTerm(term1, minInt, maxInt)
+            term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
+            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules())
             if (term1 < term2):
                 temp = term2
                 term2 = term1
@@ -290,72 +279,51 @@ class Subtraction(Worksheet):
 
         return termsList
 
-    def getDocTemplate(self):
-        if self.level.level_name == 'II':
-            return 'FOUR_COLUMNS'
-        if self.level.level_name == 'III':
-            return 'FOUR_COLUMNS'
-        return 'TWO_COLUMNS'
+#    def getDocTemplate(self):
+#        if self.level.level_name == 'II':
+#            return 'FOUR_COLUMNS'
+#        if self.level.level_name == 'III':
+#            return 'FOUR_COLUMNS'
+#        return 'TWO_COLUMNS'
 
-    def getElementsTemplate(self):
-        if self.level.level_name == 'II':
-            return 'MULTIPLE_LINES'
-        if self.level.level_name == 'III':
-            return 'MULTIPLE_LINES'
-        return 'SINGLE_LINE'
+#    def getElementsTemplate(self):
+#        if self.level.level_name == 'II':
+#            return 'MULTIPLE_LINES'
+#        if self.level.level_name == 'III':
+#            return 'MULTIPLE_LINES'
+#        return 'SINGLE_LINE'
 
 
 class Addition(Worksheet):
     def getTerms(self):
         termsList = []
-        int1Eval = ''
         for i in range(self.number_of_exercises):
-            if self.level.level_name == 'I':
-                maxInt1 = 9
-                minInt1 = 1
-                maxInt2 = 9
-                minInt2 = 1
-
-            elif self.level.level_name == 'II':
-                maxInt1 = 19
-                minInt1 = 11
-                maxInt2 = 9
-                minInt2 = 1
-
-            elif self.level.level_name == 'III':
-                int1Eval = '% 10 >= 5'
-                maxInt1 = 99
-                minInt1 = 11
-                maxInt2 = 9
-                minInt2 = 1
-            elif self.level.level_name == 'IV':
-                maxInt1 = 99
-                minInt1 = 11
-                maxInt2 = 99
-                minInt2 = 11
-
-            #term1 = random.randint(minInt1, maxInt1)
-            #term1 = self.getRandomInt(minInt1, maxInt1, int1Eval)
             term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
-            #term2 = self.getDifferentRandomTerm(term1, minInt2, maxInt2)
-            #term2 = self.getRandomInt(minInt2, maxInt2, ' != ' + str(term1))
             term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules())
             t = Terms(term1, term2, "+")
             termsList.append(t)
         return termsList
 
+#    def getDocTemplate(self):
+#        if self.level.level_name == 'III':
+#            return 'FOUR_COLUMNS'
+#        return 'TWO_COLUMNS'
+
+#    def getElementsTemplate(self):
+#        if self.level.level_name == 'III':
+#            return 'MULTIPLE_LINES'
+#        return 'SINGLE_LINE'
 
 
-    def getDocTemplate(self):
-        if self.level.level_name == 'III':
-            return 'FOUR_COLUMNS'
-        return 'TWO_COLUMNS'
-
-    def getElementsTemplate(self):
-        if self.level.level_name == 'III':
-            return 'MULTIPLE_LINES'
-        return 'SINGLE_LINE'
-
+class Multiplication(Worksheet):
+    def getTerms(self):
+        termsList = []
+        for i in range(self.number_of_exercises):
+            term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
+            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules())
+            t = Terms(term1, term2, "x")
+            termsList.append(t)
+        return termsList
 
 #################################################
 # URL REQUESTS
@@ -447,13 +415,11 @@ def generatePDFWorksheet(request, worksheet_id):
     #     elements.append(line)
     #     elements.append(Spacer(100, 23, isGlue=True))
 
-    #    doc.addPageTemplates([PageTemplate(id='TwoCol',frames=[frame_title, frame1,frame2]), ])
+    #elements = getFormattedElements(termsList, worksheetInstance.getElementsTemplate())
+    #doc = getDocTemplate(response, worksheetInstance.getDocTemplate())
 
-    #elements = getFormattedElements(termsList, 'MULTIPLE_LINES')
-    #doc = getDocTemplate(response, 'FOUR_COLUMNS')
-
-    elements = getFormattedElements(termsList, worksheetInstance.getElementsTemplate())
-    doc = getDocTemplate(response, worksheetInstance.getDocTemplate())
+    elements = getFormattedElements(termsList, worksheetInstance.worksheet_template)
+    doc = getDocTemplate(response, worksheetInstance.worksheet_template)
 
     nc = NumberedCanvas
     nc.worksheet_name = '%s - Level %s' % (worksheetInstance.get_worksheet_name(), worksheetInstance.level.level_name)
