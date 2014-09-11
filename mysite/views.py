@@ -267,8 +267,8 @@ class Subtraction(Worksheet):
     def getTerms(self):
         termsList = []
         for i in range(self.number_of_exercises):
-            term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
-            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules())
+            term1 = self.getRandomInt("term1", self.min_int_1, self.max_int_1, self.get_int_1_rules())
+            term2 = self.getRandomInt("term2", self.min_int_2, self.max_int_2, self.get_int_2_rules())
             if (term1 < term2):
                 temp = term2
                 term2 = term1
@@ -298,10 +298,10 @@ class Addition(Worksheet):
     def getTerms(self):
         termsList = []
         for i in range(self.number_of_exercises):
-            term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
+            term1 = self.getRandomInt("term1", self.min_int_1, self.max_int_1, self.get_int_1_rules())
 
             rulesParams = {"term1": term1 }
-            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules(), rulesParams)
+            term2 = self.getRandomInt("term2", self.min_int_2, self.max_int_2, self.get_int_2_rules(), rulesParams)
 
             t = Terms(term1, term2, "+")
             termsList.append(t)
@@ -322,8 +322,8 @@ class Multiplication(Worksheet):
     def getTerms(self):
         termsList = []
         for i in range(self.number_of_exercises):
-            term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
-            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules())
+            term1 = self.getRandomInt("term1", self.min_int_1, self.max_int_1, self.get_int_1_rules())
+            term2 = self.getRandomInt("term2", self.min_int_2, self.max_int_2, self.get_int_2_rules())
             t = Terms(term1, term2, "x")
             termsList.append(t)
         return termsList

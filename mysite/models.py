@@ -78,27 +78,35 @@ class Worksheet(models.Model):
             newTerm = random.randint(minInt, maxInt)
         return newTerm
 
-    def getRandomInt(self, minInt, maxInt, rules, rulesParams = {}):
+    def getRandomInt(self, termName, minInt, maxInt, rules, rulesParams = {}):
 
         local_scope = {}
 
         local_scope['randomNumber'] = random.randint(minInt, maxInt)
+        #local_scope['randomNumber'] = 12
 
+        rulesParams[termName] = "local_scope['randomNumber']"
         #randomNumber = random.randint(minInt, maxInt)
         # the while loop is not very optimal, but is quite generic to find a proper term that meets the criteria intEval
         # also be careful with infinite loops (rules that cannot be satisfied)
 
 
-        #exec("randomNumber = (randomNumber if randomNumber % 10 > 6 else (randomNumber // 10) * 10 + random.randint(7, 9))", locals())
-        #exec("local_scope['randomNumber'] = (local_scope['randomNumber'] if local_scope['randomNumber'] % 10 > 6 else (local_scope['randomNumber'] // 10) * 10 + 8)", locals())
 
-        #exec("local_scope['randomNumber'] = (local_scope['randomNumber'] if local_scope['randomNumber'] % 10 > 6 else { (local_scope['randomNumber'] // 10) * 10 + 8 })", locals())
-        exec("local_scope['randomNumber'] = (local_scope['randomNumber'] if local_scope['randomNumber'] % 10 > 6 else local_scope['randomNumber'] + local_scope['randomNumber'] % 4)", locals())
+        #exec("local_scope['randomNumber'] = (local_scope['randomNumber'] if local_scope['randomNumber'] % 10 > 6 else local_scope['randomNumber'] // 10 * 10 + ( 10 - local_scope['randomNumber'] % 4))", locals())
+
+
+        for r in rules.all():
+            statement = "local_scope['randomNumber'] = " + self.populateTags(r.rule, rulesParams)
+            exec(statement, locals())
+
+#        params = {"key1":"value1", "key2":"value2", "key3":"value3"}
+#        originalString = "testing populated string k1: {{key1}}, k2: {{key2}}, k3: {{key3}}"
+#        populatedString = self.populateTags(originalString, params)
 
 #        while self.evalRules(randomNumber, rules.all(), rulesParams) == False:
 #            randomNumber = random.randint(minInt, maxInt)
-
         return local_scope['randomNumber']
+
     def get_int_1_rules(self):
         # figure a BETTER WAY BETTER way to do this!!!!!!
         worksheet = Worksheet.objects.get(pk=self.id)
@@ -117,14 +125,20 @@ class Worksheet(models.Model):
                break
         return  is_valid
 
+    def populateTags(self, originalString, tagsDictionary):
+        populatedString = originalString
+        for k in tagsDictionary.keys():
+            populatedString = populatedString.replace("{{" + k  + "}}", str(tagsDictionary[k]))
+        return populatedString
+
 
 class WorksheetInt1Rules(models.Model):
     worksheet = models.ForeignKey(Worksheet)
-    rule = models.CharField(max_length=100)
+    rule = models.CharField(max_length=1000)
 
 class WorksheetInt2Rules(models.Model):
     worksheet = models.ForeignKey(Worksheet)
-    rule = models.CharField(max_length=100)
+    rule = models.CharField(max_length=1000)
 
 
 
