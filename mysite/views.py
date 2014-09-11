@@ -158,7 +158,7 @@ def getDocTemplate(response, pdfLayout):
 
 def getFormattedElements(termsList, operationLayout):
     elements = []
-    if operationLayout == 'FOURCOL':
+    if operationLayout == 'TWOCOL' or operationLayout == 'THREECOL':
         for t in termsList:
             data = []
             data.append([t.term1, t.operator, t.term2, '='])
@@ -167,7 +167,7 @@ def getFormattedElements(termsList, operationLayout):
                                      ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
                                      ('TEXTCOLOR', (0, 0), (-1, -1), colors.black)]))
             elements.append(tbl)
-    if operationLayout == 'TWOCOL':
+    if operationLayout == 'FOURCOL':
         for t in termsList:
             data = []
             data.append(['', t.term1])
@@ -299,7 +299,10 @@ class Addition(Worksheet):
         termsList = []
         for i in range(self.number_of_exercises):
             term1 = self.getRandomInt(self.min_int_1, self.max_int_1, self.get_int_1_rules())
-            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules())
+
+            rulesParams = {"term1": term1 }
+            term2 = self.getRandomInt(self.min_int_2, self.max_int_2, self.get_int_2_rules(), rulesParams)
+
             t = Terms(term1, term2, "+")
             termsList.append(t)
         return termsList

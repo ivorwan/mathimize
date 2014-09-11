@@ -49,9 +49,9 @@ class Worksheet(models.Model):
         ('Multiplication', 'Multiplication')
     )
     TEMPLATE_CHOICES = (
-        ('TWOCOL', 'Two Columns, Multiple Lines Operations'),
-        ('THREECOL', 'Three Columns'),
-        ('FOURCOL', 'Four Columns, Single Line Operations')
+        ('TWOCOL', 'Two Columns, Single Line Operations'),
+        ('THREECOL', 'Three Columns, Single Line Operations'),
+        ('FOURCOL', 'Four Columns, Multiple Line Operations')
     )
 
 
@@ -77,13 +77,28 @@ class Worksheet(models.Model):
         while (newTerm == term1):
             newTerm = random.randint(minInt, maxInt)
         return newTerm
-    def getRandomInt(self, minInt, maxInt, rules):
-        randomNumber = random.randint(minInt, maxInt)
-        # the while loop is not very optimal, but is quite generic to find a proper term that meets the criteria intEval
-        while self.evalRules(randomNumber, rules.all()) == False:
-            randomNumber = random.randint(minInt, maxInt)
 
-        return  randomNumber
+    def getRandomInt(self, minInt, maxInt, rules, rulesParams = {}):
+
+        local_scope = {}
+
+        local_scope['randomNumber'] = random.randint(minInt, maxInt)
+
+        #randomNumber = random.randint(minInt, maxInt)
+        # the while loop is not very optimal, but is quite generic to find a proper term that meets the criteria intEval
+        # also be careful with infinite loops (rules that cannot be satisfied)
+
+
+        #exec("randomNumber = (randomNumber if randomNumber % 10 > 6 else (randomNumber // 10) * 10 + random.randint(7, 9))", locals())
+        #exec("local_scope['randomNumber'] = (local_scope['randomNumber'] if local_scope['randomNumber'] % 10 > 6 else (local_scope['randomNumber'] // 10) * 10 + 8)", locals())
+
+        #exec("local_scope['randomNumber'] = (local_scope['randomNumber'] if local_scope['randomNumber'] % 10 > 6 else { (local_scope['randomNumber'] // 10) * 10 + 8 })", locals())
+        exec("local_scope['randomNumber'] = (local_scope['randomNumber'] if local_scope['randomNumber'] % 10 > 6 else local_scope['randomNumber'] + local_scope['randomNumber'] % 4)", locals())
+
+#        while self.evalRules(randomNumber, rules.all(), rulesParams) == False:
+#            randomNumber = random.randint(minInt, maxInt)
+
+        return local_scope['randomNumber']
     def get_int_1_rules(self):
         # figure a BETTER WAY BETTER way to do this!!!!!!
         worksheet = Worksheet.objects.get(pk=self.id)
@@ -94,10 +109,10 @@ class Worksheet(models.Model):
         worksheet = Worksheet.objects.get(pk=self.id)
         return worksheet.worksheetint2rules_set
 
-    def evalRules(self, randomNumber, rules):
+    def evalRules(self, randomNumber, rules, rulesParams):
         is_valid = True
         for r in rules.all():
-           if eval(str(randomNumber) + r.rule) == False:
+            if eval(str(randomNumber) + r.rule) == False:
                is_valid = False
                break
         return  is_valid

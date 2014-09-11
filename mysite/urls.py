@@ -25,7 +25,7 @@ urlpatterns = patterns('',
             template_name='worksheets.html')),
 	#url(r'^(?i)addition/some_view',  'mysite.views.some_view' ),
     #url(r'^(?i)addition/generatePDF/(?P<rows>\d+)/(?P<cols>\d+)/$',  'mysite.views.generatePDF', name='generatePDF' ),
-    url(r'^(?i)addition/generatePDFWorksheet/(?P<worksheet_id>\d+)/$',  'mysite.views.generatePDFWorksheet', name='generatePDFWorksheet' ),
+    url(r'^(?i)generatePDFWorksheet/(?P<worksheet_id>\d+)/$',  'mysite.views.generatePDFWorksheet', name='generatePDFWorksheet' ),
 
     url(r'^register/', 'mysite.views.register', name='mysite_register'),
     url(r'^login_test/', 'mysite.views.login_test', name='mysite_login_test'),

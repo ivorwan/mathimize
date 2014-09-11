@@ -5,19 +5,81 @@
 {% block title %} Addition {% endblock title %}
 
 {% block framedcontent %}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.2/css/jquery.dataTables.css">
+    <style>
+
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
+    </style>
 
     <div class="border padded_border">
 	    <div class="section_header">
 			<h3>Worksheets</h3>
 		</div>
         {% if worksheet_list %}
-            <ul>
-            {% for sheet in worksheet_list %}
-                <li><a href="/addition/generatePDFWorksheet/{{ sheet.id }}/">{{ sheet.worksheet_name }} - Level {{ sheet.level.level_name }}</a> <br/>  {{ sheet.description }}</li>
-            {% endfor %}
-            </ul>
+            <table id="worksheet-table" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Worksheet</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sheet in worksheet_list %}
+                        <tr>
+                            <td>{{ sheet.worksheet_name }}</td>
+                            <td><a href="/generatePDFWorksheet/{{ sheet.id }}/">{{ sheet.worksheet_name }} - Level {{ sheet.level.level_name }}</a></td>
+                            <td>{{ sheet.description }}</td>
+
+                        </tr>
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
         {% else %}
             <p>No polls are available.</p>
         {% endif %}
     </div>
+
+    <script src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function() {
+            $('#worksheet-table').dataTable({
+                "columnDefs": [ { "visible": false, "targets": 0}],
+                "order": [[ 0, 'asc']],
+                "drawCallback": function( settings) {
+                    var api = this.api();
+                    var rows = api.rows( { page: ' current'}).nodes();
+                    var last = null;
+
+                    api.column(0, {page:'current'} ).data().each( function ( group, i ) {
+                        if ( last !== group ) {
+                            $(rows).eq( i ).before(
+                                '<tr class="group"><td colspan="3">'+group+'</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    } );
+                }
+            });
+        // Order by the grouping
+            $('#worksheet-table tbody').on( 'click', 'tr.group', function () {
+                var currentOrder = table.order()[0];
+                if ( currentOrder[0] === 0 && currentOrder[1] === 'asc' ) {
+                    table.order( [ 0, 'desc' ] ).draw();
+                }
+                else {
+                    table.order( [ 0, 'asc' ] ).draw();
+                }
+            } );
+
+        } );
+
+    </script>
 {% endblock framedcontent %}
