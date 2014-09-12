@@ -174,7 +174,9 @@ def getFormattedElements(termsList, operationLayout):
             tbl = Table(data, colWidths=[termWidth, 0.2*inch, termWidth, 0.2*inch])
             tbl.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 15),
                                      ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
-                                     ('RIGHTPADDING', (1, 0), (1, 0), 1),
+                                     #('RIGHTPADDING', (1, 0), (1, 0), 1),
+                                     ('RIGHTPADDING', (0, 0), (-1, -1), 1),
+                                     ('LEFTPADDING', (0, 0), (-1, -1), 1),
                                      ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
                                      #('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
                                      #('BOX', (0,0), (-1,-1), 0.25, colors.black),
