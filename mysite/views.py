@@ -159,13 +159,28 @@ def getDocTemplate(response, pdfLayout):
 def getFormattedElements(termsList, operationLayout):
     elements = []
     if operationLayout == 'TWOCOL' or operationLayout == 'THREECOL':
+        ## finds the max value so we can estimate width in PDF
+        allTerms = []
+        for t in termsList:
+            allTerms.append(t.term1)
+            allTerms.append(t.term2)
+
+        maxValue = max(allTerms)
+        termWidth = len(str(maxValue)) * 0.2 * inch
         for t in termsList:
             data = []
             data.append([t.term1, t.operator, t.term2, '='])
-            tbl = Table(data)
+            #tbl = Table(data, colWidths=[0.5*inch, 0.3*inch, 0.5*inch, 0.3*inch])
+            tbl = Table(data, colWidths=[termWidth, 0.2*inch, termWidth, 0.2*inch])
             tbl.setStyle(TableStyle([('FONTSIZE', (0, 0), (-1, -1), 15),
                                      ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
-                                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black)]))
+                                     ('RIGHTPADDING', (1, 0), (1, 0), 1),
+                                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+                                     #('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                                     #('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                                     ('ALIGN', (0,0), (-1,-1), 'RIGHT')
+                                     ])
+            )
             elements.append(tbl)
     if operationLayout == 'FOURCOL':
         for t in termsList:

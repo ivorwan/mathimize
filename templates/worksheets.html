@@ -24,7 +24,10 @@
                     <tr>
                         <th>Type</th>
                         <th>Worksheet</th>
+                        <th>Term 1</th>
+                        <th>Term 2</th>
                         <th>Description</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -32,6 +35,8 @@
                         <tr>
                             <td>{{ sheet.worksheet_name }}</td>
                             <td><a href="/generatePDFWorksheet/{{ sheet.id }}/">{{ sheet.worksheet_name }} - Level {{ sheet.level.level_name }}</a></td>
+                            <td>{{  sheet.min_int_1 }} - {{ sheet.max_int_1 }}</td>
+                            <td>{{  sheet.min_int_2 }} - {{ sheet.max_int_2 }}</td>
                             <td>{{ sheet.description }}</td>
 
                         </tr>
@@ -51,6 +56,7 @@
         $(document).ready(function() {
             $('#worksheet-table').dataTable({
                 "columnDefs": [ { "visible": false, "targets": 0}],
+                "iDisplayLength": 100,
                 "order": [[ 0, 'asc']],
                 "drawCallback": function( settings) {
                     var api = this.api();
@@ -60,7 +66,7 @@
                     api.column(0, {page:'current'} ).data().each( function ( group, i ) {
                         if ( last !== group ) {
                             $(rows).eq( i ).before(
-                                '<tr class="group"><td colspan="3">'+group+'</td></tr>'
+                                '<tr class="group"><td colspan="5">'+group+'</td></tr>'
                             );
 
                             last = group;
