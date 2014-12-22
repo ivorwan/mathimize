@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae6bd52a-1153-4c90-9b51-4ca32a5d4ee2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/about.html" afterPath="$PROJECT_DIR$/templates/about.html" />
     </list>
     <ignored path="mysite.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,10 +52,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="about.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="about.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/about.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="0" selection-start="2767" selection-end="2767" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1190">
+            <state line="62" column="45" selection-start="3432" selection-end="3432" vertical-scroll-proportion="0.91542286" vertical-offset="502" max-vertical-offset="1258">
               <folding />
             </state>
           </provider>
@@ -70,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="106" column="38" selection-start="5416" selection-end="5416" vertical-scroll-proportion="1.0149254" vertical-offset="1190" max-vertical-offset="2346">
+            <state line="106" column="38" selection-start="5416" selection-end="5416" vertical-scroll-proportion="-23.538462" vertical-offset="1190" max-vertical-offset="2346">
               <folding />
             </state>
           </provider>
@@ -152,8 +152,8 @@
         <option value="$PROJECT_DIR$/mysite/admin.py" />
         <option value="$PROJECT_DIR$/templates/worksheets.html" />
         <option value="$PROJECT_DIR$/mysite/views.py" />
-        <option value="$PROJECT_DIR$/templates/about.html" />
         <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/templates/about.html" />
       </list>
     </option>
   </component>
@@ -1013,13 +1013,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/about.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="2767" selection-end="2767" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1190">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/content/css/lib/animate.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="0" selection-start="21" selection-end="21" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="55760">
@@ -1029,7 +1022,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="38" selection-start="5416" selection-end="5416" vertical-scroll-proportion="1.0149254" vertical-offset="1190" max-vertical-offset="2346">
+        <state line="106" column="38" selection-start="5416" selection-end="5416" vertical-scroll-proportion="-23.538462" vertical-offset="1190" max-vertical-offset="2346">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/about.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="45" selection-start="3432" selection-end="3432" vertical-scroll-proportion="0.91542286" vertical-offset="502" max-vertical-offset="1258">
           <folding />
         </state>
       </provider>
