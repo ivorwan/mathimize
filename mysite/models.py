@@ -149,35 +149,32 @@ class WorksheetInt2Rules(models.Model):
 #    Wednesday = 4
 #    Thursday = 8
 
-DAYS_OF_WEEK = ((1, 'Monday'), (2, 'Tuesday'), (4, 'Wednesday'), (8, 'Thursday'), (16, 'Friday'), (32, 'Saturday'), (64, 'Sunday'))
-    #days = {'Monday': 1,  'Tuesday': 2,  'Wednesday': 4,  'Thursday': 8, 'Friday': 16, 'Saturday': 32,  'Sunday': 64}
+#DAYS_OF_WEEK = ((1, 'Monday'), (2, 'Tuesday'), (4, 'Wednesday'), (8, 'Thursday'), (16, 'Friday'), (32, 'Saturday'), (64, 'Sunday'))
 
-class Provider(models.Model):
-    name = models.CharField(max_length=30)
-    #blockedDaysOfWeekSlots = models.ForeignKey(DaysOfWeekSlot)
-    #blockedCalendarDaysSlots = models.ForeignKey(CalendarDaySlot)
-    def __str__(self):
-        return str(self.name)
-    def get_blocked_days_of_week(self):
-        return
+#class Provider(models.Model):
+#    name = models.CharField(max_length=30)
+#    def __str__(self):
+#        return str(self.name)
+#    def get_blocked_days_of_week(self):
+#        return
 
-class DaysOfWeekSlot(models.Model):
-    provider = models.ForeignKey(Provider)
-    weekday = models.IntegerField(choices=DAYS_OF_WEEK)
-    time = models.TimeField()
-    class Meta:
-        unique_together = (("provider", "weekday", "time"),)
-    def __str__(self):
-        return "%s - %s - %s" % (str(self.provider), str(self.weekday), str(self.time))
+#class DaysOfWeekSlot(models.Model):
+#    provider = models.ForeignKey(Provider)
+#    weekday = models.IntegerField(choices=DAYS_OF_WEEK)
+#    time = models.TimeField()
+#    class Meta:
+#        unique_together = (("provider", "weekday", "time"),)
+#    def __str__(self):
+#        return "%s - %s - %s" % (str(self.provider), str(self.weekday), str(self.time))
 
-class CalendarDaySlot(models.Model):
-    provider = models.ForeignKey(Provider)
-    date = models.DateField()
-    time = models.TimeField()
-    class Meta:
-        unique_together = (("provider", "date", "time"),)
-    def __str__(self):
-        return "%s - %s - %s" % (str(self.provider), str(self.date), str(self.time))
+#class CalendarDaySlot(models.Model):
+#    provider = models.ForeignKey(Provider)
+#    date = models.DateField()
+#    time = models.TimeField()
+#    class Meta:
+#        unique_together = (("provider", "date", "time"),)
+#    def __str__(self):
+#        return "%s - %s - %s" % (str(self.provider), str(self.date), str(self.time))
 
 
 

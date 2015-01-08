@@ -7,9 +7,9 @@ from mysite.models import Level
 from mysite.models import Worksheet
 from mysite.models import WorksheetInt1Rules
 from mysite.models import WorksheetInt2Rules
-from mysite.models import DaysOfWeekSlot
-from mysite.models import CalendarDaySlot
-from mysite.models import Provider
+#from mysite.models import DaysOfWeekSlot
+#from mysite.models import CalendarDaySlot
+#from mysite.models import Provider
 
 
 class LevelAdmin(admin.ModelAdmin):
@@ -67,32 +67,26 @@ class WorksheetAdmin(admin.ModelAdmin):
 
 ############## ---------------------------------------------------------------------------------------------------
 
-class DaysOfWeekSlotInline(admin.StackedInline):
-    model = DaysOfWeekSlot
-    extra = 0
+#class DaysOfWeekSlotInline(admin.StackedInline):
+#    model = DaysOfWeekSlot
+#    extra = 0
 
-class CalendarDaySlotInline(admin.TabularInline):
-    model = CalendarDaySlot
-    extra = 1
-
-class ProviderAdmin(admin.ModelAdmin):
-    class Media:
-        #js = ('//code.jquery.com/ui/1.10.4/jquery-ui.js',)
-        js = ('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js',)
-    def test(self):
-        return ''
-
-
-#class ProviderAdminForm(forms.ModelForm):
+#class CalendarDaySlotInline(admin.TabularInline):
+#    model = CalendarDaySlot
+#    extra = 1
 
 #class ProviderAdmin(admin.ModelAdmin):
+#    class Media:
+#        js = ('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js',)
+#    def test(self):
+#        return ''
 
 
 
 admin.site.register(Level, LevelAdmin)
 admin.site.register(Worksheet, WorksheetAdmin)
 
-admin.site.register(DaysOfWeekSlot)
-admin.site.register(CalendarDaySlot)
-admin.site.register(Provider, ProviderAdmin)
+#admin.site.register(DaysOfWeekSlot)
+#admin.site.register(CalendarDaySlot)
+#admin.site.register(Provider, ProviderAdmin)
 
