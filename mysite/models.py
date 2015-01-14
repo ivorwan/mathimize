@@ -1,7 +1,7 @@
 import datetime
 from django.utils import timezone
 from django.db import models
-from taggit.managers import TaggableManager
+
 from django import forms
 import random
 
@@ -60,7 +60,7 @@ class Worksheet(models.Model):
     description = models.CharField(max_length=2000)
     number_of_exercises = models.IntegerField()
     average_time = models.IntegerField()
-    tags = TaggableManager()
+
 
     min_int_1 = models.IntegerField()
     max_int_1 = models.IntegerField()

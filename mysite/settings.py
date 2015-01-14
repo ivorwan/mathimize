@@ -52,8 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 	'polls',
     'mysite',
-    'taggit',
-	
+
 )
 
 LOGIN_REDIRECT_URL='/'
